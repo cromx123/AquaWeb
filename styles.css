@@ -1,0 +1,140 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  background-image:url("./images/background_aguabidonix.jpg");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+}
+  
+header { 
+  color: cadetblue;
+  background-color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  justify-content: space-between; 
+  display: flex;
+  align-items: center;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  background-color: #1b78a8;
+  border-radius: 100px;
+  max-width: 250px;
+}
+.logo h1{
+  color: #f4f4f4;
+  font-size: auto;
+}
+.logo img{
+  width: 25%;
+  height: auto;
+}
+nav {
+  display:flex;
+  gap: 10px;  /*Espacio entre los elementos de navegación */
+}
+.Espacio_nav{
+  padding: 10px 20px ;
+}
+nav a {
+  text-decoration: none;
+  font-size: 20px;
+  color: #38b6ff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+/*
+*/  
+nav a.NavActive{
+  padding: 0px;
+  font-size: 200%;
+  font-weight: bolder;
+}
+nav a:hover {
+  background-color: #ffffff;
+}
+h1{
+    color: #7fb4ce;
+}
+.FondoCompleto{
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+}
+.ladoA_texto{
+  padding: 0px 70px;
+}
+.ladoA_texto h1{
+  padding: 10px 60px;
+  font-size: 60px;
+}
+.ladoA_texto h2{
+  padding: 10px 20px 0px 0px;
+}
+.ladoB_bidones{
+  padding: 10%;
+}
+.ladoB_bidones img{
+  max-width: 90%;
+  min-width: 180px;
+  
+}
+.Botones_verdes{
+  display: flex;
+  padding: 20px 50% 30px 20px;
+}
+.Botones_verdes img{
+  width: 60px;
+  margin: 10px 0px;
+}
+.separacion{
+  margin: 10px;
+}
+.CuadradoDespacho{
+  padding: 10px;
+  
+  justify-items: center;
+  background-color: #7ed957;
+  border-radius: 30px;
+  text-align: center;
+  color: #3f3f3f;
+}
+.cabecera{
+  display: flex;
+}
+.CuadradoDespacho h3{
+  padding: 0px 10px;
+  color: black;
+  
+}
+.CuadradoDespacho h4{
+  margin: auto;
+}
+/* Aplicar estilos para otros tamaños */
+
+@media (max-width: 910px) {
+  header{
+    align-items: center;
+  }
+  .logo{
+    min-width: 100px;
+    min-height: 80px;
+  }
+  .logo h1 {
+    display: none;
+  }
+  .logo img{
+    min-width: 60px;
+  }
+  nav {
+    gap: 5px;
+  }
+
+}
