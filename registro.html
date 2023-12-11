@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingreso-AquaWeb</title>
+    <title>Registro-AquaWeb</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body id="aaa">
@@ -18,31 +18,25 @@
                 <a href="catalogo.html" class="NavnoActive">Catálogo</a>
                 <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
                 <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="#" class="NavActive">Ingreso</a>
+                <a href="ingreso.html" class="NavActive">Ingreso</a>
             </nav>
         </div>
     </header>
     <div class="ingreso">
-        <h1>INGRESO</h1>
-        <h2>Ingresa para continuar</h2> 
-
-        <h3>EMAIL</h3> 
+        <h1>CREAR UNA CUENTA</h1>
+        <h2>Estas Registrado? <a href="ingreso.html">Login</a></h2> 
+        <h3>NOMBRE</h3>  
+        <input type="text" id="name" name="nombre" required placeholder="tu_nombre">
+        <h3> EMAIL</h3> 
         <input type="text" id="email" name="email" required placeholder="tu_correo@gmail.com">
-
-        <h3> CONTRASEÑA</h3> 
+        <h3>CONTRASENA</h3>  
         <input type="password" id="contrasena" name="contrasena" required placeholder="**********"> 
-        <button type="submit">Iniciar sesión</button>
-
-        <h2> Estas registrado?</h2>
-        <a href="registro.html">
-            <button type="submit">Registrarse</button>
-        </a>
+        <h3>FECHA DE NACIMIENTO</h3>  
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
         
-    </div>
+        <button type="submit">Iniciar sesión</button>
          
-    <footer>
-
+    <footer class="footer">
     </footer>
-               
 </body>
 </html>

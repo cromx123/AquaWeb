@@ -117,8 +117,132 @@ h1{
 .CuadradoDespacho h4{
   margin: auto;
 }
-/* Aplicar estilos para otros tamaños */
 
+/*Paguina ingreso*/
+.ingreso{
+  display: block;
+  background-color:    #7fb4ce;
+  width: 80%; /* Ajusta el ancho según tus necesidades */
+  max-width: 600px; /* Ancho máximo para evitar que sea demasiado ancho en pantallas grandes */
+  margin: 20px auto 50px auto; /* Centrar el recuadro vertical y horizontalmente */
+  padding: 0;
+  border: 2px solid black; /* Estilo del borde */
+  border-radius: 20px; /* Esquinas redondeadas */
+  height: auto;
+}
+.ingreso h1{
+  display: block;
+  width: 300px;
+  text-align: center;
+  padding-left: 150px;
+  font: bold 40px verdana ;
+  color: #1b78a8;
+}
+.ingreso h2{
+  display: block;
+  width: 300px;
+  text-align: center;
+  padding-left: 150px;
+  font: 400 20px verdana ;
+}
+.ingreso h3{
+  display: block;
+  width: 200px;
+  font: bold 15px verdana ;
+  padding: 15px;
+  padding-left: 100px;
+}
+.ingreso input{
+  display: block;
+  background-color: #ffffff;
+  padding:0px 60px;
+  border-radius: 20px;
+  border: none;
+  margin: 0px 100px;
+  width: 45%;
+  height: 40px;
+  font-size: medium;
+}
+.ingreso button{
+  background-color: #1b78a8;
+  color: white;
+  font-size: large;
+  margin: 15px 190px;
+  top: 10px;
+  border-radius: 20px;
+  border-color: #1b78a8;
+  width: 35%;
+  height: 40px;
+}
+.ingreso a{
+  text-decoration: none;
+  
+}
+/*Seguimiento*/
+.seguimiento{
+  background-color: #7fb4ce;
+  width: 80%; 
+  margin: 20px auto 50px auto;
+  border-radius: 30px;
+  border: 2px solid black;
+}
+.seguimiento h1{
+  display: block;
+  width: 300px;
+  text-align: center;
+  padding-left: 150px;
+  font: bold 40px verdana ;
+  color: #1b78a8;
+}
+.seguimiento h2{
+  display: block;
+  width: 300px;
+  text-align: center;
+  margin-left: 150px;
+  font: 400 20px verdana ;
+}
+.seguimiento input{
+  display: block;
+  background-color: #ffffff;
+  padding:0px 60px;
+  border-radius: 15px;
+  border: none;
+  margin: 10px 100px;
+  width: 45%;
+  height: 40px;
+  font-size: medium;
+}
+.seguimiento button{
+  background-color: #1b78a8;
+  color: white;
+  font-size: large;
+  margin: 15px 190px;
+  top: 10px;
+  border-radius: 20px;
+  border-color: #1b78a8;
+  width: 35%;
+  height: 40px;
+}
+.Description{
+  display: block;
+  background-color: #ffffff;
+  padding:0px 60px;
+  border-radius: 15px;
+  border: none;
+  margin: 10px 100px;
+  width: 45%;
+  max-width: 80%;
+  height: 40px;
+  resize: vertical;
+  font-size: medium;
+}
+.seguimiento h3{
+  display: block;
+  font: bold 15px verdana ;
+  padding: 0px 15px;
+  padding-left: 100px;
+}
+/* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {
   header{
     align-items: center;
