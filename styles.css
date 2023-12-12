@@ -121,7 +121,7 @@ h1{
 /*Paguina ingreso*/
 .ingreso{
   display: block;
-  background-color:    #7fb4ce;
+  background-color:#7fb4ce;
   width: 80%; /* Ajusta el ancho según tus necesidades */
   max-width: 600px; /* Ancho máximo para evitar que sea demasiado ancho en pantallas grandes */
   margin: 20px auto 50px auto; /* Centrar el recuadro vertical y horizontalmente */
