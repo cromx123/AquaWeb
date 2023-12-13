@@ -57,11 +57,17 @@
                 if ($contrasena == $row['US_pass']) {
                     // Credenciales válidas, iniciar sesión
                     $_SESSION["usuario"] = $row['US_nombre'];
-
-                    header("Location: index.html");
+                    if($row['TIPOUS_ID'] == 0){
+                        header("Location: balancesadm.html");
+                    }else if($row['TIPOUS_ID'] == 1){
+                        header("Location: balancesusu.html");
+                    }else if($row['TIPOUS_ID'] == 2){
+                        header("Location: actualizarestado.html");
+                    }
+                    
                     exit();
                 } else {
-                    echo "Contraseña incorrecta. Usted proporcionó:$contrasena y es",$row['US_pass'],"sin espacio" ;
+                    echo "Contraseña incorrecta." ;
                 }
             } else {
                 echo "Usuario no encontrado.";
