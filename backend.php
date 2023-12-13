@@ -74,6 +74,40 @@
             }
             $stmt->close();
         }
+        elseif (isset($_POST["buscar"])){
+            $searchTerm = htmlspecialchars($_POST["searchTerm"]);
+            // Realizar la búsqueda en la base de datos
+            $sql = "SELECT * FROM bidon WHERE BID_nom LIKE ? OR BID_precio LIKE ? OR BID_litros LIKE ?";
+
+            $stmt = $conn->prepare($sql);
+            
+            // Concatenar '%' al término de búsqueda para buscar coincidencias parciales
+            $searchTerm = "%" . $searchTerm . "%";
+
+            $stmt->bind_param("sss", $searchTerm, $searchTerm, $searchTerm);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Mostrar resultados de la búsqueda
+            
+            if ($result->num_rows > 0) {
+                echo "<div id='results-container'>";
+                while ($row = $result->fetch_assoc()) {
+                    echo "<p>";
+                    echo "<p>Nombre: " . $row['BID_nom'] . "<br>";
+                    echo "Precio: " . $row['BID_precio'] . "<br>";
+                    echo "Litros: " . $row['BID_litros'] . "<br>";
+                    echo "Stock: " . $row['BID_stock'] . "</p>";
+                    // Mostrar la imagen
+                    echo "<img src='images/" . $row['BID_imagen_url'] . "' alt='Imagen del bidón'>";
+                    echo "</p>";
+                }
+                echo "</div>";
+            } else {
+                echo "<p>No se encontraron resultados.</p>";
+            }
+            $stmt->close();
+        }
     }
     // Cerrar la conexión
     $conn->close();
