@@ -56,6 +56,7 @@ CREATE TABLE BIDON (
     BID_val int,
     BID_stock INT,
     BID_precio int,
+    BID_imagen_url VARCHAR(255),
     FOREIGN KEY (TIPOBID_id) REFERENCES Tipo_Bidon(TIPIBID_id),
     PRIMARY KEY (BID_id, BID_fechaprice)
 

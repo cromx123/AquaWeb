@@ -45,7 +45,7 @@
             $email = htmlspecialchars($_POST["email"]);
             $contrasena = htmlspecialchars($_POST["contrasena"]);
             // Realizar consulta SQL
-            $sql = "SELECT US_id, US_pass, US_mail FROM usuario WHERE US_mail = ?";
+            $sql = "SELECT US_id, US_pass, US_mail, TIPOUS_ID FROM usuario WHERE US_mail = ?";
 
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
