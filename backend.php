@@ -54,14 +54,14 @@
 
             // Verificar si el usuario existe y las credenciales son correctas
             if ($row = $result->fetch_assoc()) {
-                if (password_verify($contrasena, $row['US_pass'])) {
+                if ($contrasena == $row['US_pass']) {
                     // Credenciales válidas, iniciar sesión
-                    $_SESSION["usuario_id"] = $row['US_id'];
+                    $_SESSION["usuario"] = $row['US_nombre'];
 
                     header("Location: index.html");
                     exit();
                 } else {
-                    echo "Contraseña incorrecta. Usted proporcionó: $contrasena";
+                    echo "Contraseña incorrecta. Usted proporcionó:$contrasena y es",$row['US_pass'],"sin espacio" ;
                 }
             } else {
                 echo "Usuario no encontrado.";

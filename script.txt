@@ -1,0 +1,72 @@
+CREATE TABLE TipoUsuario (
+    TIPOUS_ID INT PRIMARY KEY,
+    TIPOUS_DESC VARCHAR(20));
+
+INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
+ values (0, 'Administrador');
+
+INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
+ values (1, 'Cliente');
+
+INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
+ values (2, 'Repartidor'); 
+
+CREATE TABLE DIRECCION (
+    DIR_ID INT PRIMARY KEY,
+    DIR_CALLE VARCHAR(100),
+    DIR_NUM VARCHAR(5),
+    DIR_COMUNA VARCHAR(50)
+);
+
+CREATE TABLE USUARIO (
+    US_id INT PRIMARY KEY AUTO_INCREMENT,
+    US_pass VARCHAR(15),
+    US_mail VARCHAR(40),
+    TIPOUS_ID INT,
+    US_fono VARCHAR(11),
+    US_nombre VARCHAR(15),
+    US_apellido VARCHAR(15),
+    DIR_id INT,
+     FOREIGN KEY(TIPOUS_ID) REFERENCES TipoUsuario(TIPOUS_ID),
+    FOREIGN KEY(DIR_id) REFERENCES DIRECCION(DIR_ID)
+);
+
+CREATE TABLE COMPRA (
+    COM_id INT PRIMARY KEY,
+    COM_estado VARCHAR(50),
+    COM_numprod INT,
+    US_id INT,
+    COM_fecha DATETIME,
+    COM_preciototal INT,
+    FOREIGN KEY (US_id) REFERENCES USUARIO(US_id)
+);
+
+CREATE TABLE Tipo_Bidon (
+    TIPIBID_id INT PRIMARY KEY,
+    TIPIBID_desc VARCHAR(20)
+);
+
+CREATE TABLE BIDON (
+    BID_id INT,
+    BID_fechaprice int,
+    BID_litros int,
+    BID_nom VARCHAR(22),
+    TIPOBID_id int,
+    BID_cantVAL int,
+    BID_val int,
+    BID_stock INT,
+    BID_precio int,
+    FOREIGN KEY (TIPOBID_id) REFERENCES Tipo_Bidon(TIPIBID_id),
+    PRIMARY KEY (BID_id, BID_fechaprice)
+
+);
+
+CREATE TABLE COM_BID (
+    COM_COMID INT,
+    COM_BIDFECHA INT,
+    COM_BIDID INT,
+    PRIMARY KEY (COM_COMID, COM_BIDID, COM_BIDFECHA),
+    FOREIGN KEY (COM_COMID) REFERENCES COMPRA(COM_id),
+    FOREIGN KEY (COM_BIDID, COM_BIDFECHA) REFERENCES BIDON(BID_id, BID_fechaprice)
+
+);
