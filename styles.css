@@ -255,6 +255,18 @@ h1{
   text-decoration: none;
   
 }
+.AlertaINGRESO{
+  background-color:#7fb4ce;
+  text-align: center;
+  width: 80%; 
+  max-width: 600px; 
+  margin: 20px auto 50px auto;
+  border: 2px solid red; 
+  border-radius: 20px;
+}
+.AlertaINGRESO h1{
+  color: black;
+}
 /*Seguimiento*/
 .seguimiento{
   background-color: #7fb4ce;
@@ -338,4 +350,7 @@ h1{
     gap: 5px;
   }
 
+}
+@media (max-width: 910px) {
+ 
 }
