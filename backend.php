@@ -117,17 +117,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     }
+    //Funcion para agregar Bidones
     elseif (isset($_POST["agregar_bidon"])) {
+
         $nombrebidon = htmlspecialchars($_POST["nombre_bidon"]);
         $preciobidon = htmlspecialchars($_POST["precio_bidon"]);
         $litrosbidon = htmlspecialchars($_POST["litros_bidon"]);
         $stockbidon = htmlspecialchars($_POST["stock_bidon"]);
+        if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == UPLOAD_ERR_OK) {
+            // Ruta de destino para la imagen (en este caso, la carpeta "images" en el mismo directorio que este script)
+            $ruta_destino = "images/" . basename($_FILES["imagen"]["name"]);
+    
+            // Mueve el archivo a la carpeta de destino
+            if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_destino)) {
+                echo "La imagen se ha subido correctamente.";
+            } else {
+                echo "Hubo un error al subir la imagen.";
+            }
+        } else {
+            echo "Error: No se ha seleccionado ninguna imagen.";
+        }
+        $imagenurl = basename($_FILES["imagen"]["name"]);
         // Realizar consulta SQL
-        $sqlBidon = "INSERT INTO bidon (BID_nom, BID_precio, BID_litros, BID_stock) VALUES (?, ?, ?, ?)";
+        $sqlBidon = "INSERT INTO bidon (BID_nom, BID_precio, BID_litros, BID_stock, BID_imagen_url) VALUES (?, ?, ?, ?, ?)";
 
         $stmtBidon = $conn->prepare($sqlBidon);
 
-        $stmtBidon->bind_param("siii", $nombrebidon, $preciobidon, $litrosbidon, $stockbidon);
+        $stmtBidon->bind_param("siiis", $nombrebidon, $preciobidon, $litrosbidon, $stockbidon,$imagenurl);
         $stmtBidon->execute();
         $stmtBidon->close();
 

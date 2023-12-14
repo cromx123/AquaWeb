@@ -39,17 +39,20 @@
             </div>
             <div id="Mantener_Tablas_Basicas" class="tab-content">
                 <h1>Mantener Tablas Basicas</h1>
-                <div class="adm_tipobidon">
-
-                </div>
-                <div class="adm_tipousu"> 
-
+                <div class="diseno_contenedor">
+                    <div id="adm_tipobidon" class="admintabla">
+                        <h3>Tabla Tipo Usuario</h3>
+                    </div>
+                    <div id="adm_tipousu" class="admintabla"> 
+                        <h3>Tabla Tipo Bidón</h3>
+                    </div>
                 </div>
             </div>
+
             <!-- Aqui va el formulario para agregar un bidon -->
             <div id="Agregar_bidon" class="tab-content">
                 <h1>Agregar bidón</h1>
-                <form action="backend.php" method="POST">
+                <form action="backend.php" method="POST" enctype="multipart/form-data">
                     <div class="diseno_contenedor">
                         <div class="contenedor_formulario_ingreso_bidon">
                             <p>Nombre <input type="text" id="nombre_bidon" name="nombre_bidon" required></p>
@@ -58,10 +61,13 @@
                             <p>Precio $<input type="number" id="precio_bidon" name="precio_bidon" required placeholder="2000"></p>
                         </div>
                         <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Litros<input type="number" id="litros_bidon" name="litros_bidon" required></p>
+                            <p>Litros <input type="number" id="litros_bidon" name="litros_bidon" required></p>
                         </div>
                         <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Stock<input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
+                            <p>Stock <input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Suba una imagen <input type="file" id="imagen" name="imagen" accept="image/*"></p>
                         </div>
                         <div class="boton_formulario_ingreso_bidon">
                             <button type="submit" name="agregar_bidon">añadir bidón</button>

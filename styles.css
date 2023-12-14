@@ -400,6 +400,9 @@ h1{
 .contenedor_formulario_ingreso_bidon input{
   float: right;
 }
+.admintabla{
+  padding: 10px;
+}
 /* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {
   header{
