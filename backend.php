@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Credenciales válidas, iniciar sesión
                 $_SESSION["usuario"] = $row['US_nombre'];
                 if($row['TIPOUS_ID'] == 0){
-                    header("Location: balancesadm.html");
+                    header("Location: balancesadm.html#Reporte_Balances");
                 }else if($row['TIPOUS_ID'] == 1){
                     header("Location: balancesusu.html");
                 }else if($row['TIPOUS_ID'] == 2){
@@ -116,6 +116,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php
         }
         $stmt->close();
+    }
+    elseif (isset($_POST["agregar_bidon"])) {
+        $nombrebidon = htmlspecialchars($_POST["nombre_bidon"]);
+        $preciobidon = htmlspecialchars($_POST["precio_bidon"]);
+        $litrosbidon = htmlspecialchars($_POST["litros_bidon"]);
+        $stockbidon = htmlspecialchars($_POST["stock_bidon"]);
+        // Realizar consulta SQL
+        $sqlBidon = "INSERT INTO bidon (BID_nom, BID_precio, BID_litros, BID_stock) VALUES (?, ?, ?, ?)";
+
+        $stmtBidon = $conn->prepare($sqlBidon);
+
+        $stmtBidon->bind_param("siii", $nombrebidon, $preciobidon, $litrosbidon, $stockbidon);
+        $stmtBidon->execute();
+        $stmtBidon->close();
+
+        $conn->commit();
+        header("Location: balancesadm.html#div5");
+        exit();
     }
 }
 // Cerrar la conexión

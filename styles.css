@@ -120,6 +120,9 @@ h1{
 
 /*Catalogo*/
 .todo{
+  margin-left: 10px;
+  margin-right: 10px;
+  min-height: 700px;
   display: flex;
 }
 .titulo{
@@ -150,7 +153,7 @@ h1{
 .filtros{
   width: 250px;
   height: auto;
-  margin: 10px;
+  margin: 10px 10px 10px 20px;
 }
 .buscador_de_contenedores button{
   background-color: #1b78a8;
@@ -331,6 +334,72 @@ h1{
   padding: 0px 15px;
   padding-left: 100px;
 }
+/*ADMIN*/
+.Menu_Administrador{
+  display:flex;
+  margin: 30px 20px 50px 20px;
+}
+.Menu_Administrador nav{
+  order: 1;
+  flex-direction: column;
+}
+.Menu_Administrador a{
+  width: 180px;
+  background-color: #1b78a8;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.Menu_Administrador a:hover{
+  background-color:#0f619c;
+  border: 2px solid black;
+}
+.tab-content {
+  display: none;
+}
+#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Agregar_bidon:target, #Gestionar_Usuarios:target, #div5:target {
+  display: block;
+}
+.Cuadrado_variable{
+  margin: 0px 20px 50px 20px;
+}
+.diseno_contenedor{
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(208, 236, 252);
+  border-radius: 10px;
+  max-width: 1060px;
+  height: 200px;
+}
+.diseno_contenedor_mensaje{
+  margin: 10px 100px 10px 100px;
+  text-align: center;
+  align-self: center;
+}
+.diseno_contenedor button{
+  width: 180px;
+  background-color: #1b78a8;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.boton_formulario_ingreso_bidon{
+  width: 100%;
+  margin: 15px;
+}
+.contenedor_formulario_ingreso_bidon{
+  margin: auto 10px;
+  padding-left: 5px;
+  width: 240px;
+}
+
+.contenedor_formulario_ingreso_bidon input{
+  float: right;
+}
 /* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {
   header{
@@ -351,6 +420,8 @@ h1{
   }
 
 }
-@media (max-width: 910px) {
- 
+@media (max-width: 750px) {
+ .Espacio_nav nav{
+  flex-wrap: wrap;
+ }
 }
