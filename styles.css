@@ -118,16 +118,79 @@ h1{
   margin: auto;
 }
 
-/*Paguina ingreso*/
+/*Catalogo*/
+.todo{
+  display: flex;
+}
+.titulo{
+  margin-left: 40px;
+}
+.results-container{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+.contenedores{
+  margin: 20px 10px;
+  font-size: bold;
+  background-color: aliceblue;
+  padding: 5px;
+  border-radius: 20px;
+}
+.contenedores img{
+  height: 300px;
+  width: 200px;
+}
+.contenedores h4{
+  font-size: 5% bold;
+
+  text-align: center;
+  margin: 0px;
+}
+.filtros{
+  width: 250px;
+  height: auto;
+  margin: 10px;
+}
+.buscador_de_contenedores button{
+  background-color: #1b78a8;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.buscador_de_contenedores input{
+  border: 2px solid #1b78a8;
+
+}
+.options-list {
+  list-style: none;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.options-list li {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+.options-list button {
+  width: 180px;
+  background-color: #1b78a8;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/*Pagina ingreso*/
 .ingreso{
   display: block;
   background-color:#7fb4ce;
-  width: 80%; /* Ajusta el ancho según tus necesidades */
-  max-width: 600px; /* Ancho máximo para evitar que sea demasiado ancho en pantallas grandes */
-  margin: 20px auto 50px auto; /* Centrar el recuadro vertical y horizontalmente */
+  width: 80%; 
+  max-width: 600px; 
+  margin: 20px auto 50px auto;
   padding: 0;
-  border: 2px solid black; /* Estilo del borde */
-  border-radius: 20px; /* Esquinas redondeadas */
+  border: 2px solid black; 
+  border-radius: 20px;
   height: auto;
 }
 .ingreso h1{
@@ -152,6 +215,7 @@ h1{
   padding: 15px;
   padding-left: 100px;
 }
+
 .ingreso input{
   display: block;
   background-color: #ffffff;
@@ -160,6 +224,19 @@ h1{
   border: none;
   margin: 0px 100px;
   width: 45%;
+  height: 40px;
+  font-size: medium;
+}
+
+
+.ingreso select{
+  display: block;
+  background-color: #ffffff;
+  padding:0px 60px;
+  border-radius: 20px;
+  border: none;
+  margin: 0px 100px;
+  width: 65%;
   height: 40px;
   font-size: medium;
 }
