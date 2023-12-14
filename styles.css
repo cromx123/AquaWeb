@@ -358,7 +358,7 @@ h1{
 .tab-content {
   display: none;
 }
-#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Agregar_bidon:target, #Gestionar_Usuarios:target, #div5:target {
+#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #div5:target {
   display: block;
 }
 .Cuadrado_variable{
@@ -370,7 +370,8 @@ h1{
   background-color: rgb(208, 236, 252);
   border-radius: 10px;
   max-width: 1060px;
-  height: 200px;
+  min-height: 200px;
+  height: auto;
 }
 .diseno_contenedor_mensaje{
   margin: 10px 100px 10px 100px;
@@ -396,12 +397,21 @@ h1{
   padding-left: 5px;
   width: 240px;
 }
+.contenedor_formulario_ingreso_bidon2{
+  margin: auto 10px;
+  padding-left: 5px;
+  width: 275px;
+}
 
 .contenedor_formulario_ingreso_bidon input{
   float: right;
 }
 .admintabla{
   padding: 10px;
+}
+.title{
+  background-color: #ffffff;
+  width: 300px;
 }
 /* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {

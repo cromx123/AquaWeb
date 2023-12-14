@@ -27,7 +27,7 @@
                 <nav>
                     <a href="#Reporte_Balances">Reporte Balances</a>
                     <a href="#Mantener_Tablas_Basicas">Mantener Tablas Basicas</a>
-                    <a href="#Agregar_bidon">Agregar bidón</a>
+                    <a href="#Gestionar_productos">Gestionar productos</a>
                     <a href="#Gestionar_Usuarios">Gestionar Usuarios</a>
 
                 </nav>
@@ -50,8 +50,8 @@
             </div>
 
             <!-- Aqui va el formulario para agregar un bidon -->
-            <div id="Agregar_bidon" class="tab-content">
-                <h1>Agregar bidón</h1>
+            <div id="Gestionar_productos" class="tab-content">
+                <h1 class="title">Agregar bidón</h1>
                 <form action="backend.php" method="POST" enctype="multipart/form-data">
                     <div class="diseno_contenedor">
                         <div class="contenedor_formulario_ingreso_bidon">
@@ -66,11 +66,44 @@
                         <div class="contenedor_formulario_ingreso_bidon">
                             <p>Stock <input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
                         </div>
-                        <div class="contenedor_formulario_ingreso_bidon">
+                        <div class="contenedor_formulario_ingreso_bidon2">
                             <p>Suba una imagen <input type="file" id="imagen" name="imagen" accept="image/*"></p>
                         </div>
                         <div class="boton_formulario_ingreso_bidon">
                             <button type="submit" name="agregar_bidon">añadir bidón</button>
+                        </div>
+                        
+                    </div>
+                </form>
+                <h1 class="title">Modificar bidón</h1>
+                    <form action="backend.php" method="POST" >
+                        <div class="diseno_contenedor">
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Nombre <input type="text" id="nombre_bidon" name="nombre_bidon" required></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Precio $<input type="number" id="precio_bidon" name="precio_bidon" required placeholder="2000"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Litros <input type="number" id="litros_bidon" name="litros_bidon" required></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Stock <input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
+                            </div>
+                            <div class="boton_formulario_ingreso_bidon">
+                                <button type="submit" name="modificar_bidon">Modificar bidón</button>
+                            </div>
+                            
+                        </div>
+                    </form>
+                <h1 class="title">Eliminar bidón</h1>
+                <form action="backend.php" method="POST" >
+                    <div class="diseno_contenedor">
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Id del bidon a eliminar <input type="text" id="nombre_bidon" name="nombre_bidon" required></p>
+                        </div>
+                        <div class="boton_formulario_ingreso_bidon">
+                            <button type="submit" name="eliminar_bidon">Eliminar bidón</button>
                         </div>
                         
                     </div>
