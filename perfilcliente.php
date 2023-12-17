@@ -84,7 +84,8 @@
             </div>
             <div id="Reporte_Compras" class="tab-content2">
                 <h1>Reporte de Compras</h1>
-                <?php
+                <div class="diseno_contenedor_table1">
+                    <?php
                     // Configuración de la base de datos
                     $servername = "localhost";
                     $username = "root";
@@ -100,7 +101,7 @@
                     }
                     ?>
                     <div class="btn_cambiorango">
-                        <form action="balancesadm.php#Reporte_Balances" method="post">
+                        <form action="perfilcliente.php#Reporte_Compras" method="post">
                             <p><button type="submit" name="options" value="WEEK"></button>Últimas 24 Horas</p>
                             <p><button type="submit" name="options" value="WEEK"></button>Última semana</p>
                             <p><button type="submit" name="options" value="MONTH"></button>Último mes</p>
@@ -136,6 +137,7 @@
                     $stmt->close();
                     $conn->close();
                     ?>
+                </div>
             </div>
         </div>
     </div>

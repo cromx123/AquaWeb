@@ -18,7 +18,7 @@
                 <a href="catalogo.php" class="NavnoActive">Catálogo</a>
                 <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
                 <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="#" class="NavActive">Ingreso</a>
+                <a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">Ingreso</a>
             </nav>
         </div>
     </header>
@@ -72,12 +72,9 @@
                                     echo "<form action='backend.php' method='post'>";
                                     echo '<input type="hidden" name="ID_compra" value="' . $fila['COM_id'] . '" />'; 
                                     echo '<input type="hidden" name="despachado" value="despachado" />';
-                                    echo '<input type="hidden" name="entregado" value="entregado" />';
                                     echo '<td><button name="btn_despachado" type="submit">Despacho</button></td>';
-                                    echo '<td><button name="btn_entregado" type="submit">Entregado</button></td>';
                                     echo "</form>";
                                 } else {
-                                    echo '<td></td>';
                                     echo '<td></td>';
                                 }
                         
@@ -95,6 +92,61 @@
                         $conn->close();
                     ?>
                     <h2>Pedidos por entregar</h2>
+                    <?php
+                        // Configuración de la base de datos
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "myweb";
+                        
+                        // Crear conexión
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        
+                        // Verificar la conexión
+                        if ($conn->connect_error) {
+                            die("La conexión a la base de datos falló: " . $conn->connect_error);
+                        }
+                        $sql = "SELECT COM_id, COM_numprod, DIR_CALLE, DIR_NUM, DIR_COMUNA FROM compra, usuario, direccion WHERE compra.US_id = usuario.US_id AND usuario.DIR_id = direccion.DIR_ID AND COM_estado = 'despachado' ORDER BY COM_id ASC";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute();
+                        $resultado = $stmt->get_result();
+                        $prevCOM_id = null;
+                        if ($resultado->num_rows > 0) {
+                            echo '<table border="1">';
+                            echo '<tr><th>Orden de Compras</th><th>Cantidad de Bidones</th><th>Direccion</th><th>Número de casa</th><th>Comuna</th><th>Despachar</th></tr>';
+                        
+                            while ($fila = $resultado->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $fila['COM_id'] . '</td>';
+                                echo '<td>' . $fila['COM_numprod'] . '</td>';
+                                echo '<td>' . $fila['DIR_CALLE'] . '</td>';
+                                echo '<td>' . $fila['DIR_NUM'] . '</td>';
+                                echo '<td>' . $fila['DIR_COMUNA'] . '</td>';
+                        
+                                // Agregar botón solo para la primera aparición de COM_id
+                                if ($fila['COM_id'] != $prevCOM_id) {
+                                    echo "<form action='backend.php' method='post'>";
+                                    echo '<input type="hidden" name="ID_compra" value="' . $fila['COM_id'] . '" />'; 
+                                    echo '<input type="hidden" name="entregado" value="entregado" />';
+                                    echo '<td><button name="btn_entregado" type="submit">Entregado</button></td>';
+                                    echo "</form>";
+                                } else {
+                                    echo '<td></td>';
+                                }
+                        
+                                echo '</tr>';
+                        
+                                $prevCOM_id = $fila['COM_id'];
+                            }
+                        
+                            echo '</table>';
+                        } else {
+                            echo 'No se encontraron resultados';
+                        }
+                        
+                        $stmt->close();
+                        $conn->close();
+                    ?>
                 </div>
             </div>
             <div id="Historial_Compras" class="tab-content2">
@@ -150,7 +202,8 @@
             </div>
             <div id="Reporte_Compras" class="tab-content2">
                 <h1>Reporte Compras</h1>
-                <?php
+                <div class="diseno_contenedor_table1">
+                    <?php
                     // Configuración de la base de datos
                     $servername = "localhost";
                     $username = "root";
@@ -166,7 +219,7 @@
                     }
                     ?>
                     <div class="btn_cambiorango">
-                        <form action="balancesadm.php#Reporte_Balances" method="post">
+                        <form action="perfilrepartidor.php#Reporte_Compras" method="post">
                             <p><button type="submit" name="options" value="WEEK"></button>Últimas 24 Horas</p>
                             <p><button type="submit" name="options" value="WEEK"></button>Última semana</p>
                             <p><button type="submit" name="options" value="MONTH"></button>Último mes</p>
@@ -202,6 +255,7 @@
                     $stmt->close();
                     $conn->close();
                     ?>
+                </div>
             </div>
         </div>
     </div>

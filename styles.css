@@ -525,7 +525,7 @@ th, td {
   display: flex;;
 }
 .btn_cambiorango button {
-  padding: 5px;
+  padding: 10px;
   margin: 0px 5px 5px 5px;
   background-color: #1b78a8;
 }
