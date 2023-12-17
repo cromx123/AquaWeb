@@ -150,6 +150,12 @@ h1{
   text-align: center;
   margin: 0px;
 }
+.contenedores button{
+  background-color: #1b78a8;
+  border-radius: 20px;
+  color: #ffffff;
+  margin: 0px 45px 20px 45px;
+}
 .filtros{
   width: 250px;
   height: auto;
@@ -182,6 +188,39 @@ h1{
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
+}
+/*Carrito*/
+.figura-carrito{
+  display: flex;
+  margin: 10px 10px 10px 20px;
+  width: 250px;
+}
+.Panel-derecha{
+  flex-direction: column;
+}
+.modal-body{
+  background-color: aliceblue;
+  border-radius: 20px;
+}
+.modal-body ul[style]{
+  list-style-type: none;
+}
+.modal-body li[style]{
+  color: initial;
+}
+.modal-footer{
+  display: flex;
+  flex-direction: column;
+}
+.modal-footer button {
+  background-color: #1b78a8;
+  border-radius: 20px;
+  width: 250px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px 0px;
+  margin-bottom: 10px;
 }
 
 /*Pagina ingreso*/
@@ -272,19 +311,12 @@ h1{
 }
 /*Seguimiento*/
 .seguimiento{
-  background-color: #7fb4ce;
-  width: 80%; 
+  width: 90%; 
   margin: 20px auto 50px auto;
-  border-radius: 30px;
-  border: 2px solid black;
 }
 .seguimiento h1{
   display: block;
-  width: 300px;
-  text-align: center;
-  padding-left: 150px;
-  font: bold 40px verdana ;
-  color: #1b78a8;
+  color: #7fb4ce;
 }
 .seguimiento h2{
   display: block;
@@ -299,8 +331,7 @@ h1{
   padding:0px 60px;
   border-radius: 15px;
   border: none;
-  margin: 10px 100px;
-  width: 45%;
+  margin: 10px 10px 10px 100px;
   height: 40px;
   font-size: medium;
 }
@@ -308,12 +339,11 @@ h1{
   background-color: #1b78a8;
   color: white;
   font-size: large;
-  margin: 15px 190px;
+  margin: 15px 20px;
+  width: auto;
   top: 10px;
   border-radius: 20px;
   border-color: #1b78a8;
-  width: 35%;
-  height: 40px;
 }
 .Description{
   display: block;
@@ -331,8 +361,35 @@ h1{
 .seguimiento h3{
   display: block;
   font: bold 15px verdana ;
-  padding: 0px 15px;
-  padding-left: 100px;
+  padding: 10px 15px;
+}
+.orden_seguimiento {
+  background-color: rgba(194, 225, 253, 0.893);
+  border-radius: 20px;
+  width: max-content;
+}
+.orden_seguimiento_ingreso {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(194, 225, 253, 0.893);
+  border-radius: 20px;
+}
+.pedido_confirmado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(194, 225, 253, 0.893);
+  border-radius: 20px;
+}
+.seguimiento_estado_pedido img{
+  width: 80px;
+  height: auto;
+}
+.contenedor_estado {
+  flex-wrap: wrap;
+  margin: 20px 60px;
+
 }
 /*ADMIN*/
 .Menu_Administrador{
@@ -358,7 +415,7 @@ h1{
 .tab-content {
   display: none;
 }
-#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #div5:target {
+#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #Validar_Compra:target, #div5:target {
   display: block;
 }
 .Cuadrado_variable{
@@ -407,11 +464,64 @@ h1{
   float: right;
 }
 .admintabla{
-  padding: 10px;
+  display: flex;
+  flex-wrap: wrap ;
 }
+.contenedor_Tipo {
+  flex-direction: column;
+  background-color: rgb(208, 236, 252);
+  border-radius: 20px;
+  padding: 10px;
+  width: 300px;
+  margin: 5px;
+}
+.contenedor_Tipo h2 {
+  background-color: rgb(208, 236, 252);
+  font-size: 16px;
+}
+.contenedor_Tipo button {
+  background-color: #1b78a8;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .title{
   background-color: #ffffff;
   width: 300px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
+  background-color: white;
+}
+table button{
+  width: 90px;
+  border-radius: 20px;
+}
+table button[name="btn_rechazar"] {
+  background-color: rgb(200, 7, 16);
+}
+table button[name="btn_aceptar"] {
+  background-color: rgb(85, 221, 1);
+}
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  background-color: white;
+}
+.diseno_contenedor_table1 {
+  display: flex;;
+}
+.btn_cambiorango button {
+  padding: 5px;
+  margin: 0px 5px 5px 5px;
+  background-color: #1b78a8;
 }
 /* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {

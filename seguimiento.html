@@ -24,9 +24,27 @@
     </header>
     <div class="seguimiento">
         <h1>Revisa el seguimiento de tu pedido</h1>
-        <h3>Ingrese su orden de compra:</h3> 
-        <input type="text" id="orden-compra" name="orden-compra" required >
-        <button type="submit">Enviar</button>
+        <div class="seguimiento_estado_pedido">
+            <div class="pedido_confirmado">
+                <div class="contenedor_estado"><img src="images/tareas-pendientes.png" alt="tarea-pendientes"><h4>Pendiente</h4></div>
+                <div class="contenedor_estado"><img src="images/carrito_confirmado.png" alt="tarea-confirmada"><h4>Confirmado</h4></div>
+                <div class="contenedor_estado"><img src="images/camion.png" alt="tarea-despachada"><h4>Despachado</h4></div>
+                <div class="contenedor_estado"><img src="images/linea_de_meta.png" alt="tarea-entregada"><h4>Entregado</h4></div>
+            </div>
+            <div class="pedido_rechazado">
+                <div><img src="" alt=""><h4>Anulado</h4></div>
+            </div>
+        </div>
+        
+        <div class="orden_seguimiento">
+            <h3>Ingrese su orden de compra:</h3> 
+            <form action="backend.php" method="post">
+                <div class="orden_seguimiento_ingreso">
+                    <input type="text" id="orden_compra" name="orden_compra" required >
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
     </div>
     
     <footer>

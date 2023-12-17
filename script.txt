@@ -1,5 +1,5 @@
 CREATE TABLE TipoUsuario (
-    TIPOUS_ID INT PRIMARY KEY,
+    TIPOUS_ID INT PRIMARY KEY AUTO_INCREMENT,
     TIPOUS_DESC VARCHAR(20));
 
 INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
@@ -33,41 +33,43 @@ CREATE TABLE USUARIO (
 );
 
 CREATE TABLE COMPRA (
-    COM_id INT PRIMARY KEY,
+    COM_id INT PRIMARY KEY AUTO_INCREMENT,
     COM_estado VARCHAR(50),
     COM_numprod INT,
     US_id INT,
-    COM_fecha DATETIME,
+    COM_fecha DATE,
     COM_preciototal INT,
     FOREIGN KEY (US_id) REFERENCES USUARIO(US_id)
 );
 
 CREATE TABLE Tipo_Bidon (
-    TIPIBID_id INT PRIMARY KEY,
-    TIPIBID_desc VARCHAR(20)
+    TIPOBID_id INT PRIMARY KEY AUTO_INCREMENT,
+    TIPOBID_desc VARCHAR(20)
 );
 
 CREATE TABLE BIDON (
-    BID_id INT,
-    BID_fechaprice int,
-    BID_litros int,
+    BID_ID INT AUTO_INCREMENT,
     BID_nom VARCHAR(22),
-    TIPOBID_id int,
+    BID_fechaprice DATE,
+    BID_litros int,
+    BID_precio int,
+    BID_stock INT,
     BID_cantVAL int,
     BID_val int,
-    BID_stock INT,
-    BID_precio int,
-    FOREIGN KEY (TIPOBID_id) REFERENCES Tipo_Bidon(TIPIBID_id),
-    PRIMARY KEY (BID_id, BID_fechaprice)
+    TIPOBID_id int,
+    BID_imagen_url VARCHAR(255),
+    FOREIGN KEY (TIPOBID_id) REFERENCES tipo_Bidon(TIPOBID_id),
+    PRIMARY KEY (BID_ID, BID_fechaprice)
 
 );
 
 CREATE TABLE COM_BID (
     COM_COMID INT,
-    COM_BIDFECHA INT,
+    COM_BIDFECHA DATE,
     COM_BIDID INT,
+    COM_CANTIDAD INT,
     PRIMARY KEY (COM_COMID, COM_BIDID, COM_BIDFECHA),
     FOREIGN KEY (COM_COMID) REFERENCES COMPRA(COM_id),
-    FOREIGN KEY (COM_BIDID, COM_BIDFECHA) REFERENCES BIDON(BID_id, BID_fechaprice)
+    FOREIGN KEY (COM_BIDID, COM_BIDFECHA) REFERENCES BIDON(BID_ID, BID_fechaprice)
 
 );

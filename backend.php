@@ -1,4 +1,6 @@
 <?php
+//inicia session
+session_start();
 // Configuración de la base de datos
 $servername = "localhost";
 $username = "root";
@@ -11,6 +13,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Verificar la conexión
 if ($conn->connect_error) {
     die("La conexión a la base de datos falló: " . $conn->connect_error);
+}
+function obtenerIdUsuarioDesdeLaSesion() {
+    if (isset($_SESSION["US_id"])) {
+        return $_SESSION["US_id"];
+    } else {
+        header("Location: ingreso.html");
+        exit();
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -72,7 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn->rollback();
             echo "Error en el registro: " . $e->getMessage();
         }
-    } elseif (isset($_POST["login"])) {
+    
+    }// Funcion que realiza el login 
+    elseif (isset($_POST["login"])) {
         $email = htmlspecialchars($_POST["email"]);
         $contrasena = htmlspecialchars($_POST["contrasena"]);
         // Realizar consulta SQL
@@ -88,14 +100,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($contrasena == $row['US_pass']) {
                 // Credenciales válidas, iniciar sesión
                 $_SESSION["usuario"] = $row['US_nombre'];
+                $_SESSION["US_id"] = $row['US_id'];
                 if($row['TIPOUS_ID'] == 0){
-                    header("Location: balancesadm.html#Reporte_Balances");
+                    header("Location: balancesadm.php#Reporte_Balances");
                 }else if($row['TIPOUS_ID'] == 1){
-                    header("Location: balancesusu.html");
+                    header("Location: perfilcliente.html");
                 }else if($row['TIPOUS_ID'] == 2){
                     header("Location: actualizarestado.html");
                 }
-                
                 exit();
             } else {
                 include("ingreso.html");
@@ -124,6 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $preciobidon = htmlspecialchars($_POST["precio_bidon"]);
         $litrosbidon = htmlspecialchars($_POST["litros_bidon"]);
         $stockbidon = htmlspecialchars($_POST["stock_bidon"]);
+        $tipo_bidon = htmlspecialchars($_POST["tipo_bidon"]);
         if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == UPLOAD_ERR_OK) {
             // Ruta de destino para la imagen (en este caso, la carpeta "images" en el mismo directorio que este script)
             $ruta_destino = "images/" . basename($_FILES["imagen"]["name"]);
@@ -139,19 +152,196 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $imagenurl = basename($_FILES["imagen"]["name"]);
         // Realizar consulta SQL
-        $sqlBidon = "INSERT INTO bidon (BID_nom, BID_precio, BID_litros, BID_stock, BID_imagen_url) VALUES (?, ?, ?, ?, ?)";
+        $sqlBidon = "INSERT INTO bidon (BID_fechaprice, BID_nom, BID_precio, TIPOBID_id, BID_litros, BID_stock, BID_imagen_url) VALUES (CURDATE(), ?, ?, ?, ?, ?, ?)";
 
         $stmtBidon = $conn->prepare($sqlBidon);
 
-        $stmtBidon->bind_param("siiis", $nombrebidon, $preciobidon, $litrosbidon, $stockbidon,$imagenurl);
+        $stmtBidon->bind_param("siiiis", $nombrebidon, $preciobidon, $tipo_bidon, $litrosbidon, $stockbidon,$imagenurl);
         $stmtBidon->execute();
         $stmtBidon->close();
 
         $conn->commit();
-        header("Location: balancesadm.html#div5");
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["modificar_bidon"])) {
+        $ID_bidon = htmlspecialchars($_POST["ID_bidon"]);
+        $nombre_bidon = htmlspecialchars($_POST["nombre_bidon"]);
+        $precio_bidon = htmlspecialchars($_POST["precio_bidon"]);
+        $litros_bidon = htmlspecialchars($_POST["litros_bidon"]);
+        $stock_bidon = htmlspecialchars($_POST["stock_bidon"]);
+
+        $Modificarbidon = "UPDATE bidon SET BID_nom=?, BID_precio=?, BID_litros=?, BID_stock=? WHERE BID_ID=?";
+        $stmt = $conn->prepare($Modificarbidon);
+
+        $stmt->bind_param("siiii", $nombre_bidon, $precio_bidon, $litros_bidon, $stock_bidon, $id_a_modificar);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["eliminar_bidon"])) {
+        $ID_bidon = htmlspecialchars($_POST["ID_bidon"]);
+        $Eliminarfila = "DELETE FROM bidon WHERE BID_ID = ?";
+        
+        $stmtBidon = $conn->prepare($Eliminarfila);
+        $stmtBidon->bind_param("i",  $ID_bidon);
+        $stmtBidon->execute();
+        $stmtBidon->close();
+        header("Location: balancesadm.php#div5");
+        $conn->commit();
+        exit();
+    }
+    elseif (isset($_POST["agregar_ordencompra"])) {
+    
+        // Obtén el US_id del usuario de la sesión
+        $US_id = obtenerIdUsuarioDesdeLaSesion();
+        $Preciototal = htmlspecialchars($_POST["precio_total"]);
+        $Cantidad = htmlspecialchars($_POST["cantidad"]);
+        $EstadoCompra = 'Pendiente';
+        $AgregarOrden = "INSERT INTO compra (COM_estado, US_id, COM_numprod,COM_fecha, COM_preciototal) VALUES (?, ?, ?,CURDATE(), ?)";
+    
+        $stmtInsertarOrden = $conn->prepare($AgregarOrden);
+        $stmtInsertarOrden->bind_param('siii', $EstadoCompra, $US_id, $Cantidad, $Preciototal);
+        $stmtInsertarOrden->execute();
+        $stmtInsertarOrden->close();
+
+        // Guardamos los detalles de la orden en una tabla intermedia
+        $ultimo_id = $conn->insert_id;
+        foreach ($_SESSION['carrito'] as $item) {
+            $Cantidad = $item['cantidad'];
+            $bidon_id = $item['ID'];
+            $Fecha= date("Y-m-d", strtotime($item['fechaprice']));
+            if($bidon_id != NULL){
+                $AgregarDatosOrden = "INSERT INTO com_bid (COM_COMID, COM_BIDFECHA, COM_BIDID, COM_CANTIDAD) VALUES (?, ?, ?, ?)";
+                $stmtInsertarDatosOrden = $conn->prepare($AgregarDatosOrden);
+                $stmtInsertarDatosOrden->bind_param('isii', $ultimo_id, $Fecha,$bidon_id, $Cantidad);
+                $stmtInsertarDatosOrden->execute();
+                $stmtInsertarDatosOrden->close();
+        
+            }
+        }
+        $conn->commit();
+        header("Location: perfilcliente.html");
+        exit();
+    }
+    //Aceptar o Rechazar ordenes de compras
+    elseif (isset($_POST["btn_aceptar"])){
+        $ID_compra = htmlspecialchars($_POST["ID_compra"]);
+        $estado =htmlspecialchars($_POST["compra-validada"]);
+
+        $ActualizarEstado = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
+
+        $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
+        $stmtActualizarEstado-> bind_param('si', $estado,$ID_compra);
+        $stmtActualizarEstado-> execute();
+        $stmtActualizarEstado-> close();
+        header("Location: balancesadm.php#Validar_Compra");
+        exit();
+    }
+    elseif (isset($_POST["btn_rechazar"])){
+        $ID_compra = htmlspecialchars($_POST["ID_compra"]);
+
+        $ActualizarReferencias = "DELETE FROM com_bid WHERE COM_COMID = ?";
+        $stmtActualizarReferencias = $conn->prepare($ActualizarReferencias);
+        $stmtActualizarReferencias->bind_param('i', $ID_compra);
+        $stmtActualizarReferencias->execute();
+        $stmtActualizarReferencias->close();
+
+        $ActualizarEstado = "DELETE FROM compra WHERE COM_id = ?";
+        $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
+        $stmtActualizarEstado-> bind_param('i', $ID_compra);
+        $stmtActualizarEstado-> execute();
+        $stmtActualizarEstado-> close();
+
+        $conn->commit();
+        header("Location: balancesadm.php#Validar_Compra");
+        exit();
+    }
+    //Agregar TIPO USUARIO
+    elseif (isset($_POST["agregar_TipoUsuario"])) {
+
+        $nombre_tipousuario = htmlspecialchars($_POST["nombre_TipoUsuario"]);
+        $sqlTipousario = "INSERT INTO tipousuario (TIPOUS_DESC) VALUES (?)";
+
+        $stmtTipousario = $conn->prepare($sqlTipousario);
+
+        $stmtTipousario->bind_param("s", $nombre_tipousuario);
+        $stmtTipousario->execute(); 
+        $stmtTipousario->close();
+
+        $conn->commit();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["modificar_TipoUsuario"])) {
+        $ID_tipousuario = htmlspecialchars($_POST["ID_TipoUsuario"]);
+        $nombre_tipousuario = htmlspecialchars($_POST["nombre_TipoUsuario"]);
+
+        $ModificarTipousario = "UPDATE tipousuario SET TIPOUS_DESC=? WHERE TIPOUS_ID=?";
+        $stmt = $conn->prepare($ModificarTipousario);
+
+        $stmt->bind_param("si", $nombre_tipousuario, $ID_tipousuario);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["eliminar_TipoUsuario"])) {
+        $ID_tipousuario  = htmlspecialchars($_POST["ID_TipoUsuario"]);
+        $Eliminarfila = "DELETE FROM tipousuario WHERE TIPOUS_ID = ?";
+        
+        $stmtTipousario = $conn->prepare($Eliminarfila);
+        $stmtTipousario->bind_param("i",  $ID_tipousuario);
+        $stmtTipousario->execute();
+        $stmtTipousario->close();
+        header("Location: balancesadm.php#div5");
+        $conn->commit();
+        exit();
+    }
+    //Agregar TIPO BIDON
+    elseif (isset($_POST["agregar_Tipobidon"])) {
+
+        $nombre_tipobidon = htmlspecialchars($_POST["nombre_tipobidon"]);
+        $sqlTipobidon = "INSERT INTO tipo_bidon (TIPOBID_desc) VALUES (?)";
+
+        $stmt = $conn->prepare($sqlTipobidon);
+
+        $stmt->bind_param("s", $nombre_tipobidon);
+        $stmt->execute(); 
+        $stmt->close();
+
+        $conn->commit();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["modificar_Tipobidon"])) {
+        $ID_tipobidon = htmlspecialchars($_POST["ID_tipobidon"]);
+        $nombre_tipobidon = htmlspecialchars($_POST["nombre_tipobidon"]);
+
+        $Modificartipobidon = "UPDATE tipo_bidon SET TIPOBID_desc=? WHERE TIPOBID_id=?";
+        $stmt = $conn->prepare($Modificartipobidon);
+
+        $stmt->bind_param("si", $nombre_tipobidon, $ID_tipobidon);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["eliminar_Tipobidon"])) {
+        $ID_tipobidon  = htmlspecialchars($_POST["ID_tipobidon"]);
+        $Eliminarfila = "DELETE FROM tipo_bidon WHERE TIPOBID_id = ?";
+        
+        $stmt = $conn->prepare($Eliminarfila);
+        $stmt->bind_param("i",  $ID_tipobidon);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: balancesadm.php#div5");
+        $conn->commit();
         exit();
     }
 }
 // Cerrar la conexión
 $conn->close();
 ?>
+
