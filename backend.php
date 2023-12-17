@@ -104,9 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($row['TIPOUS_ID'] == 0){
                     header("Location: balancesadm.php#Reporte_Balances");
                 }else if($row['TIPOUS_ID'] == 1){
-                    header("Location: perfilcliente.html");
+                    header("Location: perfilcliente.php#Historial_Compras");
                 }else if($row['TIPOUS_ID'] == 2){
-                    header("Location: actualizarestado.html");
+                    header("Location: perfilrepartidor.php#Actualizar_Estado");
                 }
                 exit();
             } else {
@@ -222,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         $conn->commit();
-        header("Location: perfilcliente.html");
+        header("Location: catalogo.php");
         exit();
     }
     //Aceptar o Rechazar ordenes de compras
@@ -256,6 +256,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conn->commit();
         header("Location: balancesadm.php#Validar_Compra");
+        exit();
+    }
+    //Despachar o Entregar pedido
+    elseif (isset($_POST["btn_despachado"])){
+        $ID_compra = htmlspecialchars($_POST["ID_compra"]);
+        $estado =htmlspecialchars($_POST["despachado"]);
+        
+        $ActualizarEstado = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
+
+        $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
+        $stmtActualizarEstado-> bind_param('si', $estado,$ID_compra);
+        $stmtActualizarEstado-> execute();
+        $stmtActualizarEstado-> close();
+        header("Location: perfilrepartidor.php#Actualizar_Estado");
+        exit();
+    }
+    elseif (isset($_POST["btn_entregado"])){
+        $ID_compra = htmlspecialchars($_POST["ID_compra"]);
+        $estado =htmlspecialchars($_POST["entregado"]);
+
+        $ActualizarEstado = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
+
+        $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
+        $stmtActualizarEstado-> bind_param('si', $estado,$ID_compra);
+        $stmtActualizarEstado-> execute();
+        $stmtActualizarEstado-> close();
+        header("Location: perfilrepartidor.php#Actualizar_Estado");
         exit();
     }
     //Agregar TIPO USUARIO

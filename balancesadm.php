@@ -18,7 +18,7 @@
                 <a href="catalogo.php" class="NavnoActive">Catálogo</a>
                 <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
                 <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="balancesadm.html" class="NavActive">Tu perfil</a>
+                <a href="balancesadm.php#Reporte_Balances" class="NavActive">Tu perfil</a>
             </nav>
         </div>
     </header>

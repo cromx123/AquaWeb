@@ -418,6 +418,12 @@ h1{
 #Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #Validar_Compra:target, #div5:target {
   display: block;
 }
+.tab-content2 {
+  display: none;
+}
+#Actualizar_Estado:target, #Historial_Compras:target, #Reporte_Compras:target {
+  display: block;
+}
 .Cuadrado_variable{
   margin: 0px 20px 50px 20px;
 }
