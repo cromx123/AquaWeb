@@ -14,11 +14,17 @@
         </div>
         <div class="Espacio_nav">
             <nav>
-                <a href="index.html" class="NavnoActive">Home</a>
+                <a href="index.php" class="NavnoActive">Home</a>
                 <a href="catalogo.php" class="NavnoActive">Catálogo</a>
                 <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
-                <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="balancesadm.php#Reporte_Balances" class="NavActive">Tu perfil</a>
+                <?php
+                session_start();
+                if (isset($_SESSION['usuario'])) {
+                    echo '<a href="balancesadm.php#Reporte_Balances" class="NavActive">' . $_SESSION['usuario'] . '</a>';
+                } else {
+                    echo '<a href="balancesadm.php#Reporte_Balances" class="NavActive">Tu perfil</a>';
+                }
+                ?>
             </nav>
         </div>
     </header>
@@ -30,7 +36,7 @@
                     <a href="#Gestionar_productos">Gestionar productos</a>
                     <a href="#Gestionar_Usuarios">Gestionar Usuarios</a>
                     <a href="#Validar_Compra">Validar Compra</a>
-                    <a href="#Cerrar_Session">Cerrar Sessión</a>
+                    <a href="#Cerrar_Session">Cerrar Sesión</a>
                 </nav>
         </div>
         <div class="Cuadrado_variable">

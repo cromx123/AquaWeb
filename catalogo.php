@@ -32,11 +32,27 @@
         <div class="Espacio_nav">
             <nav>
                 <a href="#Carrito" class="items_Carrito"><?php echo $total_cantidad; ?></a>
-                <a href="index.html" class="NavnoActive">Home</a>
+                <a href="index.php" class="NavnoActive">Home</a>
                 <a href="#" class="NavActive">Catálogo</a>
                 <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
-                <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="ingreso.html" class="NavnoActive">Ingreso</a>
+                <?php
+                if (isset($_SESSION['usuario'])) {
+                    if (isset($_SESSION['tipousuario']) && $_SESSION["tipousuario"] == 0){
+                        echo '<a href="balancesadm.php#Reporte_Balances" class="NavnoActive">Tu perfil</a>';
+                    }
+                    elseif ($_SESSION['tipousuario'] == 1){
+                        echo '<a href="perfilcliente.php#Historial_Compras" class="NavnoActive">Tu perfil</a>';
+                    }
+                    elseif ($_SESSION['tipousuario'] == 2){
+                        echo '<a href="perfilrepartidor.php#Actualizar_Estado" class="NavnoActive">Tu perfil</a>';
+                    }
+                    else {
+                        echo '<a href="ingreso.html" class="NavnoActive">Ingreso</a>';
+                    }
+                } else {
+                    echo '<a href="ingreso.html" class="NavnoActive">Ingreso</a>';
+                }
+                ?>
             </nav>
         </div>
     </header>

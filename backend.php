@@ -101,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Credenciales válidas, iniciar sesión
                 $_SESSION["usuario"] = $row['US_nombre'];
                 $_SESSION["US_id"] = $row['US_id'];
+                $_SESSION["tipousuario"] = $row['TIPOUS_ID'];
                 if($row['TIPOUS_ID'] == 0){
                     header("Location: balancesadm.php#Reporte_Balances");
                 }else if($row['TIPOUS_ID'] == 1){
@@ -378,7 +379,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: seguimiento.php');
     }
     elseif (isset($_POST["cerrar_session"])){
-        header('Location: index.html');
+        header('Location: index.php');
         unset($_SESSION["usuario"]);
         unset($_SESSION["US_id"]);
     }

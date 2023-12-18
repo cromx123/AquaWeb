@@ -14,11 +14,17 @@
         </div>
         <div class="Espacio_nav">
             <nav>
-                <a href="index.html" class="NavnoActive">Home</a>
+                <a href="index.php" class="NavnoActive">Home</a>
                 <a href="catalogo.php" class="NavnoActive">Catálogo</a>
                 <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
-                <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="perfilcliente.php#Historial_Compras" class="NavActive">Tu perfil</a>
+                <?php
+                session_start();
+                if (isset($_SESSION['usuario'])) {
+                    echo '<a href="perfilcliente.php#Historial_Compras" class="NavActive">' . $_SESSION['usuario'] . '</a>';
+                } else {
+                    echo '<a href="perfilcliente.php#Historial_Compras" class="NavActive">Tu perfil</a>';
+                }
+                ?>
             </nav>
         </div>
     </header>
@@ -27,7 +33,7 @@
             <nav>
                 <a href="#Historial_Compras">Historial Compras</a>
                 <a href="#Reporte_Compras">Reporte Compras</a>
-                <a href="#Cerrar_Session">Cerrar Sessión</a>
+                <a href="#Cerrar_Session">Cerrar Sesión</a>
             </nav>
         </div>
     
@@ -35,7 +41,7 @@
             <div id="Historial_Compras" class="tab-content2">
                 <h1>Historial de Compras</h1>
                 <?php
-                    session_start();
+                    
                     // Configuración de la base de datos
                     $servername = "localhost";
                     $username = "root";

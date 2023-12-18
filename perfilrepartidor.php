@@ -31,14 +31,13 @@ if ($conn->connect_error) {
         </div>
         <div class="Espacio_nav">
         <nav>
-            <a href="index.html" class="NavnoActive">Home</a>
+            <a href="index.php" class="NavnoActive">Home</a>
             <a href="catalogo.php" class="NavnoActive">Catálogo</a>
             <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
-            <a href="contacto.html" class="NavnoActive">Contacto</a>
 
             <?php
             if (isset($_SESSION['usuario'])) {
-                echo '<a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">Bienvenido, ' . $_SESSION['usuario'] . '</a>';
+                echo '<a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">' . $_SESSION['usuario'] . '</a>';
             } else {
                 echo '<a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">Tu perfil</a>';
             }
@@ -52,7 +51,7 @@ if ($conn->connect_error) {
                 <a href="#Actualizar_Estado">Actualizar Estado</a>
                 <a href="#Historial_Compras">Historial de Compras</a>
                 <a href="#Reporte_Compras">Reporte Compras</a>
-                <a href="#Cerrar_Session">Cerrar Sessión</a>
+                <a href="#Cerrar_Session">Cerrar Sesión</a>
             </nav>
         </div>
     
