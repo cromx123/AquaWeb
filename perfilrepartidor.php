@@ -249,8 +249,10 @@ if ($conn->connect_error) {
                     </div>
                     <?php
                     $rango = isset($_POST["options"]) ? $_POST["options"] : "WEEK";
-                    $sql = "SELECT COM_fecha, COM_numprod, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) GROUP BY COM_fecha;";
+                    $US_id = $_SESSION['US_id'];
+                    $sql = "SELECT COM_fecha, COM_numprod, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) AND `US_id` = ? GROUP BY COM_fecha;";
                     $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $US_id);
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     if ($resultado->num_rows > 0) {
