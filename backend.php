@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = htmlspecialchars($_POST["email"]);
         $contrasena = htmlspecialchars($_POST["contrasena"]);
         // Realizar consulta SQL
-        $sql = "SELECT US_id, US_pass, US_mail, TIPOUS_ID FROM usuario WHERE US_mail = ?";
+        $sql = "SELECT US_id, US_nombre, US_pass, US_mail, TIPOUS_ID FROM usuario WHERE US_mail = ?";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
@@ -377,7 +377,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["estado"] = $estado;
         header('Location: seguimiento.php');
     }
-
+    elseif (isset($_POST["cerrar_session"])){
+        header('Location: index.html');
+        unset($_SESSION["usuario"]);
+        unset($_SESSION["US_id"]);
+    }
 }
 // Cerrar la conexión
 $conn->close();

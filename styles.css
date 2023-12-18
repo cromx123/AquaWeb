@@ -467,7 +467,7 @@ h1{
 .tab-content {
   display: none;
 }
-#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #Validar_Compra:target, #div5:target {
+#Reporte_Balances:target, #Mantener_Tablas_Basicas:target, #Gestionar_productos:target, #Gestionar_Usuarios:target, #Validar_Compra:target, #div5:target, #Cerrar_Session:target {
   display: block;
 }
 .tab-content2 {
@@ -580,6 +580,20 @@ th, td {
   padding: 10px;
   margin: 0px 5px 5px 5px;
   background-color: #1b78a8;
+}
+/*Cosas generales*/
+.btns_yes_no {
+  display: flex;
+  flex-wrap: wrap;
+}
+.btns_yes_no button{
+  background-color: #1b78a8;
+  padding: 10px 20px;
+  margin: 15px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
 }
 /* Aplicar estilos para otros tamaños */
 @media (max-width: 910px) {

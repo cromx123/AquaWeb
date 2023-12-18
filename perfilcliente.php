@@ -27,6 +27,7 @@
             <nav>
                 <a href="#Historial_Compras">Historial Compras</a>
                 <a href="#Reporte_Compras">Reporte Compras</a>
+                <a href="#Cerrar_Session">Cerrar Sessión</a>
             </nav>
         </div>
     
@@ -138,6 +139,19 @@
                     $conn->close();
                     ?>
                 </div>
+            </div>
+            <div id="Cerrar_Session" class="tab-content">
+                <h1>Seguro que Desea Cerrar Sessión</h1>
+                <div class=" btns_yes_no">
+                    <form action="backend.php" method="post">
+                        <button type="submit" name="cerrar_session">Si</button>
+                    </form>
+                    <form action="perfilcliente.php#Historial_Compras" method="post">
+                        <button >No</button>
+                    </form>
+                </div>
+                
+
             </div>
         </div>
     </div>
