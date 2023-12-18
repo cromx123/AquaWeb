@@ -241,18 +241,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     elseif (isset($_POST["btn_rechazar"])){
         $ID_compra = htmlspecialchars($_POST["ID_compra"]);
+        $estado =htmlspecialchars($_POST["compra-rechazada"]);
 
-        $ActualizarReferencias = "DELETE FROM com_bid WHERE COM_COMID = ?";
+        $ActualizarReferencias = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
         $stmtActualizarReferencias = $conn->prepare($ActualizarReferencias);
-        $stmtActualizarReferencias->bind_param('i', $ID_compra);
+        $stmtActualizarReferencias->bind_param('si', $estado, $ID_compra);
         $stmtActualizarReferencias->execute();
         $stmtActualizarReferencias->close();
-
-        $ActualizarEstado = "DELETE FROM compra WHERE COM_id = ?";
-        $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
-        $stmtActualizarEstado-> bind_param('i', $ID_compra);
-        $stmtActualizarEstado-> execute();
-        $stmtActualizarEstado-> close();
 
         $conn->commit();
         header("Location: balancesadm.php#Validar_Compra");
@@ -367,6 +362,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->commit();
         exit();
     }
+    elseif (isset($_POST["buscar_pedido"])) {
+        $ID_Pedido = htmlspecialchars($_POST["orden_compra"]);
+
+        // Consulta SQL para obtener el estado del pedido desde la base de datos
+        $Rastrear = "SELECT COM_estado FROM compra WHERE COM_id = ?";
+
+        $stmt = $conn->prepare($Rastrear);
+        $stmt->bind_param("i", $ID_Pedido);
+        $stmt->execute();
+        $stmt->bind_result($estado);
+        $stmt->fetch();
+        $stmt->close();
+        $_SESSION["estado"] = $estado;
+        header('Location: seguimiento.php');
+    }
+
 }
 // Cerrar la conexión
 $conn->close();

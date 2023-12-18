@@ -16,7 +16,7 @@
             <nav>
                 <a href="index.html" class="NavnoActive">Home</a>
                 <a href="catalogo.php" class="NavnoActive">Catálogo</a>
-                <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
+                <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
                 <a href="contacto.html" class="NavnoActive">Contacto</a>
                 <a href="balancesadm.php#Reporte_Balances" class="NavActive">Tu perfil</a>
             </nav>
@@ -459,6 +459,7 @@
                                     echo "<form action='backend.php' method='post'>";
                                     echo '<input type="hidden" name="ID_compra" value="' . $fila['COM_COMID'] . '" />'; 
                                     echo '<input type="hidden" name="compra-validada" value="compra validada" />';
+                                    echo '<input type="hidden" name="compra-rechazada" value="anulado" />';
                                     echo '<td><button name="btn_aceptar" type="submit">Aceptar</button></td>';
                                     echo '<td><button name="btn_rechazar" type="submit">Rechazar</button></td>';
                                     echo "</form>";

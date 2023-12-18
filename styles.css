@@ -377,19 +377,71 @@ h1{
 }
 .pedido_confirmado {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-color: rgba(194, 225, 253, 0.893);
-  border-radius: 20px;
 }
 .seguimiento_estado_pedido img{
   width: 80px;
   height: auto;
 }
-.contenedor_estado {
+.seguimiento_estado_pedido {
+  background-color: rgba(194, 225, 253, 0.893);
+  border-radius: 20px;
+}
+.seguimiento_estado_pedido h2 {
+  margin: 10px;
+  padding-top: 20px;
+  font-weight: bolder;
+}
+.pedido_rechazado {
+  display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.contenedor_estadocancelado {
   margin: 20px 60px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.contenedor_estadocancelado img {
+  margin-left: 20px;
+}
+.contenedor_estado {
+  margin: 20px 60px;
+  padding: 10px;
+}
+.contenedor_estado1_pendiente {
+  margin: 20px 60px;
+  padding: 10px;
+  border: 2px solid black;
+  background-color: #63d3c9;
+  border-radius: 10px;
+}
+.contenedor_estado1_confirmado {
+  margin: 20px 60px;
+  padding: 10px;
+  border: 2px solid black;
+  background-color: #63d3c9;
+  border-radius: 10px;
+}
 
+.contenedor_estado1_despachado {
+  margin: 20px 60px;
+  padding: 10px;
+  border: 2px solid black;
+  background-color: #63d3c9;
+  border-radius: 10px;
+}
+
+.contenedor_estado1_entregado {
+  margin: 20px 60px;
+  padding: 10px;
+  border: 2px solid black;
+  background-color: #63d3c9;
+  border-radius: 10px;
 }
 /*ADMIN*/
 .Menu_Administrador{

@@ -34,7 +34,7 @@
                 <a href="#Carrito" class="items_Carrito"><?php echo $total_cantidad; ?></a>
                 <a href="index.html" class="NavnoActive">Home</a>
                 <a href="#" class="NavActive">Catálogo</a>
-                <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
+                <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
                 <a href="contacto.html" class="NavnoActive">Contacto</a>
                 <a href="ingreso.html" class="NavnoActive">Ingreso</a>
             </nav>

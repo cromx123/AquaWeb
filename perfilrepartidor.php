@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+// Configuración de la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "myweb";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("La conexión a la base de datos falló: " . $conn->connect_error);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,13 +30,20 @@
             <h1>AquaWeb</h1>
         </div>
         <div class="Espacio_nav">
-            <nav>
-                <a href="index.html" class="NavnoActive">Home</a>
-                <a href="catalogo.php" class="NavnoActive">Catálogo</a>
-                <a href="seguimiento.html" class="NavnoActive">Seguimiento</a>
-                <a href="contacto.html" class="NavnoActive">Contacto</a>
-                <a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">Ingreso</a>
-            </nav>
+        <nav>
+            <a href="index.html" class="NavnoActive">Home</a>
+            <a href="catalogo.php" class="NavnoActive">Catálogo</a>
+            <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
+            <a href="contacto.html" class="NavnoActive">Contacto</a>
+
+            <?php
+            if (isset($_SESSION['usuario'])) {
+                echo '<a href="#">Bienvenido, ' . $_SESSION['usuario'] . '</a>';
+            } else {
+                echo '<a href="perfilrepartidor.php#Actualizar_Estado" class="NavActive">Ingreso</a>';
+            }
+            ?>
+        </nav>
         </div>
     </header>
     <div class="todo">
@@ -37,7 +61,6 @@
                 <div class="diseno_contenedor_table">
                     <h2>Pedidos para despachar</h2>
                     <?php
-                        // Configuración de la base de datos
                         $servername = "localhost";
                         $username = "root";
                         $password = "";
@@ -93,7 +116,6 @@
                     ?>
                     <h2>Pedidos por entregar</h2>
                     <?php
-                        // Configuración de la base de datos
                         $servername = "localhost";
                         $username = "root";
                         $password = "";
@@ -152,16 +174,14 @@
             <div id="Historial_Compras" class="tab-content2">
                 <h1>Historial de Compras</h1>
                 <?php
-                    session_start();
-                    // Configuración de la base de datos
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
                     $dbname = "myweb";
-
+                    
                     // Crear conexión
                     $conn = new mysqli($servername, $username, $password, $dbname);
-
+                    
                     // Verificar la conexión
                     if ($conn->connect_error) {
                         die("La conexión a la base de datos falló: " . $conn->connect_error);
