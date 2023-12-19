@@ -240,34 +240,58 @@ if ($conn->connect_error) {
                     ?>
                     <div class="btn_cambiorango">
                         <form action="perfilrepartidor.php#Reporte_Compras" method="post">
-                            <p><button type="submit" name="options" value="WEEK"></button>Últimas 24 Horas</p>
+                            <p><button type="submit" name="options" value="DAY"></button>Últimas 24 Horas</p>
                             <p><button type="submit" name="options" value="WEEK"></button>Última semana</p>
                             <p><button type="submit" name="options" value="MONTH"></button>Último mes</p>
                             <p><button type="submit" name="options" value="YEAR"></button>Último año</p>
-                            <p><button ></button>Elija rango de Fecha</p>
+                            <p>
+                                <label for="fecha_inicio">Fecha inicio:</label>
+                                <input type="date" name="fecha_inicio">
+                            </p>
+                            <p>
+                                    <label for="fecha_fin">Fecha fin:</label>
+                                <input type="date" name="fecha_fin">
+                            </p>
+                            <p>
+                                <button type="submit" name="options" value="CUSTOM"></button>
+                                Buscar Rango
+                            </p>
                         </form>
                     </div>
                     <?php
                     $rango = isset($_POST["options"]) ? $_POST["options"] : "WEEK";
                     $US_id = $_SESSION['US_id'];
-                    $sql = "SELECT COM_fecha, COM_numprod, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) AND `US_id` = ? GROUP BY COM_fecha;";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $US_id);
+                    if ($rango === "CUSTOM") {
+                        $fecha_inicio = isset($_POST["fecha_inicio"]) ? $_POST["fecha_inicio"] : "";
+                        $fecha_fin = isset($_POST["fecha_fin"]) ? $_POST["fecha_fin"] : "";
+                        $fecha_inicio = date("Y-m-d", strtotime($fecha_inicio));
+                        $fecha_fin = date("Y-m-d", strtotime($fecha_fin));
+                        $sql = "SELECT COM_fecha, SUM(COM_numprod) AS NUMP, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE `US_id` = ? AND COM_fecha BETWEEN ? AND ? GROUP BY COM_fecha;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("iss", $US_id, $fecha_inicio, $fecha_fin);
+                        
+                    }
+                    else {
+                        $sql = "SELECT COM_fecha, SUM(COM_numprod) AS NUMP, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) AND `US_id` = ? GROUP BY COM_fecha;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $US_id);
+                    }
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     if ($resultado->num_rows > 0) {
                         echo "<div class= 'tablabalances'>";
                         echo '<table border="1">';
                         echo '<tr><th>Fecha de Compra</th><th>Cantidad  de Productos</th><th>Total</th></tr>';
-                    
+                        $SumaTotal = 0;
                         while ($fila = $resultado->fetch_assoc()) {
                             echo '<tr>';
                             echo '<td>' . $fila['COM_fecha'] . '</td>';
-                            echo '<td>' . $fila['COM_numprod'] . '</td>';
+                            echo '<td>' . $fila['NUMP'] . '</td>';
                             echo '<td>$' . number_format($fila['TOTAL'], 0) . '</td>';
+                            $SumaTotal = $SumaTotal + $fila['TOTAL'];
                             echo '</tr>';
                         }
-                    
+                        echo '<tr><th></th><th>Suma total</th><td>$'. number_format($SumaTotal, 0) . '</td></tr>';
                         echo '</table>';
                         echo "</div>";
                     } else {

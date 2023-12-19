@@ -61,31 +61,55 @@
                     ?>
                     <div class="btn_cambiorango">
                         <form action="balancesadm.php#Reporte_Balances" method="post">
-                            <p><button type="submit" name="options" value="WEEK"></button>Últimas 24 Horas</p>
+                            <p><button type="submit" name="options" value="DAY"></button>Últimas 24 Horas</p>
                             <p><button type="submit" name="options" value="WEEK"></button>Última semana</p>
                             <p><button type="submit" name="options" value="MONTH"></button>Último mes</p>
                             <p><button type="submit" name="options" value="YEAR"></button>Último año</p>
-                            <p><button ></button>Elija rango de Fecha</p>
+                            <p>
+                                <label for="fecha_inicio">Fecha inicio:</label>
+                                <input type="date" name="fecha_inicio">
+                            </p>
+                            <p>
+                                    <label for="fecha_fin">Fecha fin:</label>
+                                <input type="date" name="fecha_fin">
+                            </p>
+                            <p>
+                                <button type="submit" name="options" value="CUSTOM"></button>
+                                Buscar Rango
+                            </p>
                         </form>
                     </div>
                     <?php
                     $rango = isset($_POST["options"]) ? $_POST["options"] : "WEEK";
-                    $sql = "SELECT COM_fecha, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) GROUP BY COM_fecha;";
-                    $stmt = $conn->prepare($sql);
+                    if ($rango === "CUSTOM") {
+                        $fecha_inicio = isset($_POST["fecha_inicio"]) ? $_POST["fecha_inicio"] : "";
+                        $fecha_fin = isset($_POST["fecha_fin"]) ? $_POST["fecha_fin"] : "";
+                        $fecha_inicio = date("Y-m-d", strtotime($fecha_inicio));
+                        $fecha_fin = date("Y-m-d", strtotime($fecha_fin));
+                        $sql = "SELECT COM_fecha, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha BETWEEN ? AND ? GROUP BY COM_fecha;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("ss", $fecha_inicio, $fecha_fin);
+                        
+                    }
+                    else {
+                        $sql = "SELECT COM_fecha, SUM(`COM_preciototal`) AS TOTAL FROM `compra` WHERE COM_fecha >= DATE_SUB(CURDATE(), INTERVAL 1 $rango) GROUP BY COM_fecha;";
+                        $stmt = $conn->prepare($sql);
+                    }
                     $stmt->execute();
                     $resultado = $stmt->get_result();
                     if ($resultado->num_rows > 0) {
                         echo "<div class= 'tablabalances'>";
                         echo '<table border="1">';
                         echo '<tr><th>Fecha de Compra</th><th>Total</th></tr>';
-                    
+                        $SumaTotal = 0;
                         while ($fila = $resultado->fetch_assoc()) {
                             echo '<tr>';
                             echo '<td>' . $fila['COM_fecha'] . '</td>';
-                            echo '<td>$' . number_format($fila['TOTAL'], 2) . '</td>';
+                            echo '<td>$' . number_format($fila['TOTAL'], 0) . '</td>';
+                            $SumaTotal = $SumaTotal + $fila['TOTAL'];
                             echo '</tr>';
                         }
-                    
+                        echo '<tr><th>Suma total</th><td>$'. number_format($SumaTotal, 0) . '</td></tr>';
                         echo '</table>';
                         echo "</div>";
                     } else {
@@ -361,16 +385,66 @@
                 <form action="backend.php" method="POST">
                     <div class="diseno_contenedor">
                         <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Nombre <input type="text" id="nombre_bidon" name="nombre_bidon" required></p>
+                            <p>Nombre <input type="text" id="name" name="nombre" required placeholder="El Nombre"></p>
                         </div>
                         <div class="contenedor_formulario_ingreso_bidon">
-                                <p>Contraseña <input type="number" id="litros_bidon" name="litros_bidon" required></p>
-                            </div>
-                        <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Correo<input type="number" id="precio_bidon" name="precio_bidon" required placeholder="2000"></p>
+                            <p>Apellido <input type="text" id="name" name="apellido" required placeholder="EL Apellido"></p>
                         </div>
                         <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Tipo usuario <input type="number" id="litros_bidon" name="litros_bidon" required></p>
+                            <p>Contraseña<input type="password" id="contrasena" name="contrasena" required placeholder="**********"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Correo<input type="email" id="email" name="email" required placeholder="tu_correo@gmail.com"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Teléfono<input type="tel" id="telefono" name="telefono" pattern="9[1-9][0-9]{7}" placeholder="Ej. 9 12345678"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Tipo usuario <input type="number" id="tipo_us" name="tipo_us" required placeholder="0 para admin o 1 para cliente o 2 para repartidor"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Dirección<input type="text" id="name" name="calle" required placeholder="La dirección"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Número de casa<input type="tel" id="telefono" name="direccionnum" pattern="[1-9][0-9]*" placeholder="Ej. 1234"></p>
+                        </div>
+                        <div class="contenedor_formulario_ingreso_bidon">
+                            <p>Comuna 
+                                <select id="name" name="comuna" required>
+                                    <option value="" disabled selected>Selecciona tu comuna</option>
+                                    <option value="Cerrillos">Cerrillos</option>
+                                    <option value="Cerro Navia">Cerro Navia</option>
+                                    <option value="Conchalí">Conchalí</option>
+                                    <option value="Estación Central">Estación Central</option>
+                                    <option value="Huechuraba">Huechuraba</option>
+                                    <option value="Independencia">Independencia</option>
+                                    <option value="La Cisterna">La Cisterna</option>
+                                    <option value="La Florida">La Florida</option>
+                                    <option value="La Granja">La Granja</option>
+                                    <option value="La Pintana">La Pintana</option>
+                                    <option value="El Bosque">El Bosque</option>
+                                    <option value="La Reina">La Reina</option>
+                                    <option value="Las Condes">Las Condes</option>
+                                    <option value="Lo Barnechea">Lo Barnechea</option>
+                                    <option value="Lo Espejo">Lo Espejo</option>
+                                    <option value="Lo Prado">Lo Prado</option>
+                                    <option value="Macul">Macul</option>
+                                    <option value="Maipú">Maipú</option>
+                                    <option value="Ñuñoa">Ñuñoa</option>
+                                    <option value="Pedro Aguirre Cerda">Pedro Aguirre Cerda</option>
+                                    <option value="Peñalolén">Peñalolén</option>
+                                    <option value="Providencia">Providencia</option>
+                                    <option value="Pudahuel">Pudahuel</option>
+                                    <option value="Puente Alto">Puente Alto</option>
+                                    <option value="Quilicura">Quilicura</option>
+                                    <option value="Quinta Normal">Quinta Normal</option>
+                                    <option value="Recoleta">Recoleta</option>
+                                    <option value="Renca">Renca</option>
+                                    <option value="San Miguel">San Miguel</option>
+                                    <option value="San Ramón">San Ramón</option>
+                                    <option value="Santiago">Santiago</option>
+                                </select>
+                            </p>
                         </div>
                         <div class="boton_formulario_ingreso_bidon">
                             <button type="submit" name="agregar_Usuario">Añadir Usuario</button>
@@ -381,23 +455,69 @@
                     <form action="backend.php" method="POST" >
                         <div class="diseno_contenedor">
                             <div class="contenedor_formulario_ingreso_bidon">
-                                <p>ID <input type="text" id="ID_bidon" name="ID_bidon" required></p>
+                                <p>ID <input type="number" id="ID_usuario" name="ID_usuario" required></p>
                             </div>
                             <div class="contenedor_formulario_ingreso_bidon">
-                                <p>Nombre <input type="text" id="nombre_bidon" name="nombre_bidon" required></p>
+                                <p>Nombre <input type="text" id="name" name="nombre" required placeholder="El Nombre"></p>
                             </div>
                             <div class="contenedor_formulario_ingreso_bidon">
-                                <p>Contraseña <input type="number" id="litros_bidon" name="litros_bidon" required></p>
+                                <p>Apellido <input type="text" id="name" name="apellido" required placeholder="EL Apellido"></p>
                             </div>
                             <div class="contenedor_formulario_ingreso_bidon">
-                                <p>Correo<input type="number" id="precio_bidon" name="precio_bidon" required placeholder="2000"></p>
-                            </div>
-                            
-                            <div class="contenedor_formulario_ingreso_bidon">
-                                <p>Tipo usuario <input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
+                                <p>Contraseña<input type="password" id="contrasena" name="contrasena" required placeholder="**********"></p>
                             </div>
                             <div class="contenedor_formulario_ingreso_bidon">
-                                <p>direccion <input type="number" id="stock_bidon" name="stock_bidon" required placeholder="20"></p>
+                                <p>Correo<input type="email" id="email" name="email" required placeholder="tu_correo@gmail.com"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Teléfono<input type="tel" id="telefono" name="telefono" pattern="9[1-9][0-9]{7}" placeholder="Ej. 9 12345678"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Tipo usuario <input type="number" id="tipo_us" name="tipo_us" required placeholder="0 para admin o 1 para cliente o 2 para repartidor"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Dirección<input type="text" id="name" name="calle" required placeholder="La dirección"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Número de casa<input type="tel" id="telefono" name="direccionnum" pattern="[1-9][0-9]*" placeholder="Ej. 1234"></p>
+                            </div>
+                            <div class="contenedor_formulario_ingreso_bidon">
+                                <p>Comuna 
+                                    <select id="name" name="comuna" required>
+                                        <option value="" disabled selected>Selecciona tu comuna</option>
+                                        <option value="Cerrillos">Cerrillos</option>
+                                        <option value="Cerro Navia">Cerro Navia</option>
+                                        <option value="Conchalí">Conchalí</option>
+                                        <option value="Estación Central">Estación Central</option>
+                                        <option value="Huechuraba">Huechuraba</option>
+                                        <option value="Independencia">Independencia</option>
+                                        <option value="La Cisterna">La Cisterna</option>
+                                        <option value="La Florida">La Florida</option>
+                                        <option value="La Granja">La Granja</option>
+                                        <option value="La Pintana">La Pintana</option>
+                                        <option value="El Bosque">El Bosque</option>
+                                        <option value="La Reina">La Reina</option>
+                                        <option value="Las Condes">Las Condes</option>
+                                        <option value="Lo Barnechea">Lo Barnechea</option>
+                                        <option value="Lo Espejo">Lo Espejo</option>
+                                        <option value="Lo Prado">Lo Prado</option>
+                                        <option value="Macul">Macul</option>
+                                        <option value="Maipú">Maipú</option>
+                                        <option value="Ñuñoa">Ñuñoa</option>
+                                        <option value="Pedro Aguirre Cerda">Pedro Aguirre Cerda</option>
+                                        <option value="Peñalolén">Peñalolén</option>
+                                        <option value="Providencia">Providencia</option>
+                                        <option value="Pudahuel">Pudahuel</option>
+                                        <option value="Puente Alto">Puente Alto</option>
+                                        <option value="Quilicura">Quilicura</option>
+                                        <option value="Quinta Normal">Quinta Normal</option>
+                                        <option value="Recoleta">Recoleta</option>
+                                        <option value="Renca">Renca</option>
+                                        <option value="San Miguel">San Miguel</option>
+                                        <option value="San Ramón">San Ramón</option>
+                                        <option value="Santiago">Santiago</option>
+                                    </select>
+                                </p>
                             </div>
                             <div class="boton_formulario_ingreso_bidon">
                                 <button type="submit" name="modificar_Usuario">Modificar Usuario</button>
@@ -409,7 +529,7 @@
                 <form action="backend.php" method="POST" >
                     <div class="diseno_contenedor">
                         <div class="contenedor_formulario_ingreso_bidon">
-                            <p>Id del Usuario a eliminar <input type="text" id="ID_bidon" name="ID_bidon" required></p>
+                            <p>Id del Usuario a eliminar <input type="text" id="ID_usuario" name="ID_usuario" required></p>
                         </div>
                         <div class="boton_formulario_ingreso_bidon">
                             <button type="submit" name="eliminar_Usuario">Eliminar Usuario</button>

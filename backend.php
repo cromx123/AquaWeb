@@ -383,6 +383,134 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         unset($_SESSION["usuario"]);
         unset($_SESSION["US_id"]);
     }
+    elseif (isset($_POST["agregar_Usuario"])) {
+        $nombre = htmlspecialchars($_POST["nombre"]);
+        $apellido = htmlspecialchars($_POST["apellido"]);
+        $contrasena = htmlspecialchars($_POST["contrasena"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $telefono = htmlspecialchars($_POST["telefono"]);
+        $tipo = htmlspecialchars($_POST["tipo_us"]);
+        $calle = htmlspecialchars($_POST["calle"]);
+        $callenum = htmlspecialchars($_POST["direccionnum"]);
+        $comuna = htmlspecialchars($_POST["comuna"]);
+        $US_id = rand(10, 999999);
+        // Iniciar una transacción
+        $conn->begin_transaction();
+
+        try {
+            $sqlDIR = "INSERT INTO direccion (DIR_CALLE,DIR_NUM,DIR_COMUNA) VALUES (?, ?, ?);";
+            $stmtDIR = $conn->prepare($sqlDIR);
+            $stmtDIR->bind_param("sss", $calle, $callenum, $comuna);
+            $stmtDIR->execute();
+            $DIR_id = $stmtDIR->insert_id;
+            $stmtDIR->close();
+            $sqlUsuario = "INSERT INTO usuario (US_id, US_nombre, US_apellido, US_fono, US_mail, US_pass, TIPOUS_ID, DIR_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+            $stmtUsuario = $conn->prepare($sqlUsuario);
+
+            $stmtUsuario->bind_param("issssssi", $US_id, $nombre, $apellido, $telefono, $email, $contrasena, $tipo, $DIR_id);
+            $stmtUsuario->execute();
+            $stmtUsuario->close();
+
+            $conn->commit();
+            header("Location: balancesadm.php#div5");
+            exit();
+        } catch (Exception $e) {
+            $conn->rollback();
+            echo "Error en el registro: " . $e->getMessage();
+        }
+    }
+    elseif (isset($_POST["modificar_Usuario"])) {
+        $ID_usuario = htmlspecialchars($_POST["ID_usuario"]);
+        $nombre = htmlspecialchars($_POST["nombre"]);
+        $apellido = htmlspecialchars($_POST["apellido"]);
+        $contrasena = htmlspecialchars($_POST["contrasena"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $telefono = htmlspecialchars($_POST["telefono"]);
+        $tipo = htmlspecialchars($_POST["tipo_us"]);
+        $calle = htmlspecialchars($_POST["calle"]);
+        $callenum = htmlspecialchars($_POST["direccionnum"]);
+        $comuna = htmlspecialchars($_POST["comuna"]);
+
+        $ModificarDir = "INSERT INTO direccion (DIR_CALLE,DIR_NUM,DIR_COMUNA) VALUES (?, ?, ?);";
+        $stmtDIR = $conn->prepare($ModificarDir);
+        $stmtDIR->bind_param("sss", $calle, $callenum, $comuna);
+        $stmtDIR->execute();
+        $DIR_id = $stmtDIR->insert_id;
+        $stmtDIR->close();
+
+        $ModificarUSU = "UPDATE usuario SET US_nombre=?, US_apellido=?, US_pass=?, US_fono=?, US_mail=?,TIPOUS_ID=?, DIR_id=? WHERE US_id=?";
+        $stmt = $conn->prepare($ModificarUSU);
+
+        $stmt->bind_param("issssssi", $US_id, $nombre, $apellido, $telefono, $email, $contrasena, $tipo, $DIR_id);
+        $stmt->execute();
+        $stmt->close();
+        
+        $conn->commit();
+        header("Location: balancesadm.php#div5");
+        exit();
+    }
+    elseif (isset($_POST["eliminar_Usuario"])) {
+        $ID_usuario = htmlspecialchars($_POST["ID_usuario"]);
+        $EliminarUs_decompra = "UPDATE compra SET US_id = NULL WHERE US_id = ?";
+        $stmt = $conn->prepare($EliminarUs_decompra);
+        $stmt->bind_param("i",  $ID_usuario);
+        $stmt->execute();
+        $stmt->close();
+
+        $Eliminarfila = "DELETE FROM usuario WHERE US_id = ?";
+        
+        $stmt = $conn->prepare($Eliminarfila);
+        $stmt->bind_param("i",  $ID_usuario);
+        $stmt->execute();
+        $stmt->close();
+
+        header("Location: balancesadm.php#div5");
+        $conn->commit();
+        exit();
+    }
+    elseif (isset($_POST['enviar_valoracion'])){
+        $bidID = htmlspecialchars($_POST["id_bidon"]);
+        $Valoracion = htmlspecialchars($_POST["puntuacion"]);
+    
+        // Verificar si ya hay una valoración existente
+        $ObtenerValoracionActual = "SELECT BID_cantVAL, BID_val FROM bidon WHERE BID_ID=?";
+        $stmt = $conn->prepare($ObtenerValoracionActual);
+        $stmt->bind_param("i", $bidID);
+        $stmt->execute();
+        $stmt->bind_result($CantValoracionActual, $ValoracionActual);
+        $stmt->fetch();
+        $stmt->close();
+    
+        if ($CantValoracionActual > 0) {
+            // Actualizar la tabla bidon con la nueva cantidad de valoraciones y la nueva valoración promediada
+            $CantValoracionNueva = $CantValoracionActual + 1;
+            $ValoracionPromediadaNueva = ($ValoracionActual * $CantValoracionActual + $Valoracion) / $CantValoracionNueva;
+    
+            $Modificarbidon = "UPDATE bidon SET BID_cantVAL=?, BID_val=? WHERE BID_ID=?";
+            $stmt = $conn->prepare($Modificarbidon);
+            $stmt->bind_param("idi", $CantValoracionNueva, $ValoracionPromediadaNueva, $bidID);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            // No hay valoración existente, establecer la nueva valoración directamente
+            $CantValoracionNueva = 1;
+    
+            $Modificarbidon = "UPDATE bidon SET BID_cantVAL=?, BID_val=? WHERE BID_ID=?";
+            $stmt = $conn->prepare($Modificarbidon);
+            $stmt->bind_param("idi", $CantValoracionNueva, $Valoracion, $bidID);
+            $stmt->execute();
+            $stmt->close();
+        }
+    
+        // Resto de tu código
+        $conn->commit();
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
+    }
+    elseif (isset($_POST['anadir_valoracion'])){
+        unset($_SESSION["boton_presionado"]);
+        header('Location: catalogo.php');
+    }
 }
 // Cerrar la conexión
 $conn->close();

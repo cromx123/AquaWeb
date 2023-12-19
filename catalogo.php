@@ -31,7 +31,7 @@
         </div>
         <div class="Espacio_nav">
             <nav>
-                <a href="#Carrito" class="items_Carrito"><?php echo $total_cantidad; ?></a>
+                <a href="catalogo.php" class="items_Carrito"><img src="images/carrovacio.png" alt="carrito" width=45px><?php echo $total_cantidad; ?></a>
                 <a href="index.php" class="NavnoActive">Home</a>
                 <a href="#" class="NavActive">Catálogo</a>
                 <a href="seguimiento.php" class="NavnoActive">Seguimiento</a>
@@ -127,15 +127,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <form action="backend.php" method="post">
-                            <input type="hidden" name="cantidad" value=<?php echo $total_cantidad?>>
-                            <input type="hidden" name="precio_total" value=<?php echo $total?>>
-                            <button type="submit" name="agregar_ordencompra">Solicitar Pedido</button>
-                        </form>
-                        <form action="borrarcarrito.php" method="post">
-                            <button type="submit">Vaciar carrito</button>
-                        </form>
+                    <div class="modal-footer" >
+                        <?php if ($total_cantidad > 0) { ?>
+                            <form action="backend.php" method="post">
+                                <input type="hidden" name="cantidad" value="<?php echo $total_cantidad ?>">
+                                <input type="hidden" name="precio_total" value="<?php echo $total ?>">
+                                <button type="submit" name="agregar_ordencompra">Solicitar Pedido</button>
+                            </form>
+                            <form action="borrarcarrito.php" method="post">
+                                <button type="submit">Vaciar carrito</button>
+                            </form>
+                        <?php } else { ?>
+                            <button>Agrega algo al carrito</button>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -222,6 +226,15 @@
                         echo "Precio: $" . $row['BID_precio'] . "<br>";
                         echo "Litros: " . $row['BID_litros'] . "<br>";
                         echo "Stock: " . $row['BID_stock'] . "</p>";
+                        echo "<div class='estrellas'>";
+                        $numeroEstrellas = 5; // Total de estrellas
+                        $valorEstrellas = $row['BID_val'];
+
+                        for ($i = 1; $i <= $numeroEstrellas; $i++) {
+                            $tipoEstrella = ($i <= $valorEstrellas) ? 'llena' : 'vacia';
+                            echo "<img src='images/estrella_$tipoEstrella.png' alt='estrella $tipoEstrella'>";
+                        }
+                        echo "</div>";
                         echo "</p>";
                             // Agregamos campos de entrada ocultos
                         echo "<input type='hidden' name='fechaprice' value='" . $row['BID_fechaprice'] . "'>";

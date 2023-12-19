@@ -39,6 +39,15 @@ nav {
   display:flex;
   gap: 10px;  /*Espacio entre los elementos de navegación */
 }
+a.items_Carrito img {
+  width: 27px;
+  margin-right: 10px;
+}
+a.items_Carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .Espacio_nav{
   padding: 10px 20px ;
 }
@@ -188,6 +197,10 @@ h1{
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
+}
+.estrellas img{
+  width: 25px;
+  height: 25px;
 }
 /*Carrito*/
 .figura-carrito{
@@ -580,6 +593,28 @@ th, td {
   padding: 10px;
   margin: 0px 5px 5px 5px;
   background-color: #1b78a8;
+}
+/*Valorar producto*/
+#enviar_val {
+  background-color: #1b78a8;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.formulario_valoracion button{
+  background-color: #1b78a8;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.formulario_valoracion{
+  margin-left: 20px;
 }
 /*Cosas generales*/
 .btns_yes_no {
