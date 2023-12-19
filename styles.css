@@ -580,6 +580,14 @@ table button[name="btn_rechazar"] {
 table button[name="btn_aceptar"] {
   background-color: rgb(85, 221, 1);
 }
+table a{
+  background-color: #1b78a8;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #3f3f3f;
+  color: #ffffff;
+  text-decoration: none;
+}
 th, td {
   border: 1px solid black;
   padding: 8px;
