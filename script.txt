@@ -3,13 +3,17 @@ CREATE TABLE TipoUsuario (
     TIPOUS_DESC VARCHAR(20));
 
 INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
- values (0, 'Administrador');
+ values (1, 'Administrador');
 
 INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
- values (1, 'Cliente');
+ values (2, 'Cliente');
 
 INSERT INTO TipoUsuario (TIPOUS_ID, TIPOUS_DESC)
- values (2, 'Repartidor'); 
+ values (3, 'Repartidor'); 
+
+UPDATE tipousuario SET TIPO_ID = 0 WHERE TIPO_ID = 1;
+UPDATE tipousuario SET TIPO_ID = 1 WHERE TIPO_ID = 2;
+UPDATE tipousuario SET TIPO_ID = 2 WHERE TIPO_ID = 3;
 
 CREATE TABLE DIRECCION (
     DIR_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -46,6 +50,15 @@ CREATE TABLE Tipo_Bidon (
     TIPOBID_id INT PRIMARY KEY AUTO_INCREMENT,
     TIPOBID_desc VARCHAR(20)
 );
+
+INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+ values (1, 'Redondo, Plástico duro');
+
+INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+ values (2, 'Redondo, Plástico reciclable');
+
+INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+ values (3, 'Cuadrado, Plástico');
 
 CREATE TABLE BIDON (
     BID_ID INT AUTO_INCREMENT,
