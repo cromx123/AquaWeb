@@ -587,6 +587,7 @@
                                     echo '<input type="hidden" name="ID_compra" value="' . $fila['COM_COMID'] . '" />'; 
                                     echo '<input type="hidden" name="Bid_stock" value="' . $fila['BID_stock'] . '" />'; 
                                     echo '<input type="hidden" name="BID_ID" value="' . $fila['BID_ID'] . '" />'; 
+                                    echo '<input type="hidden" name="COM_Cantidad" value="' . $fila['COM_Cantidad'] . '" />'; 
                                     echo '<input type="hidden" name="compra-validada" value="compra validada" />';
                                     echo '<input type="hidden" name="compra-rechazada" value="anulado" />';
                                     echo '<td><button name="btn_aceptar" type="submit">Aceptar</button></td>';

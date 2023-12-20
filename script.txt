@@ -51,13 +51,13 @@ CREATE TABLE Tipo_Bidon (
     TIPOBID_desc VARCHAR(20)
 );
 
-INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+INSERT INTO Tipo_Bidon (TIPOBID_id, TIPOBID_desc)
  values (1, 'Redondo, Plástico duro');
 
-INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+INSERT INTO Tipo_Bidon (TIPOBID_id, TIPOBID_desc)
  values (2, 'Redondo, Plástico reciclable');
 
-INSERT INTO Tipo_Bidon (TIPOUS_ID, TIPOUS_DESC)
+INSERT INTO Tipo_Bidon (TIPOBID_id, TIPOBID_desc)
  values (3, 'Cuadrado, Plástico');
 
 CREATE TABLE BIDON (

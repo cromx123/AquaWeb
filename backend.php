@@ -239,7 +239,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $estado = htmlspecialchars($_POST["compra-validada"]);
         $BID_ID = htmlspecialchars($_POST["BID_ID"]);
         $BID_stock = htmlspecialchars($_POST["Bid_stock"]);
-        $BID_stock = $BID_stock - 1;
+        $Cantidad_solicitada = htmlspecialchars($_POST["COM_Cantidad"]);
+        $BID_stock = $BID_stock - $Cantidad_solicitada;
         $ActualizarEstado = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
 
         $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
