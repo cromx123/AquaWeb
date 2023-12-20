@@ -32,7 +32,7 @@
         <div class="Menu_Administrador">
                 <nav>
                     <a href="#Reporte_Balances">Reporte Balances</a>
-                    <a href="#Mantener_Tablas_Basicas">Mantener Tablas Basicas</a>
+                    <a href="#Mantener_Tablas_Basicas">Mantener Tablas Básicas</a>
                     <a href="#Gestionar_productos">Gestionar productos</a>
                     <a href="#Gestionar_Usuarios">Gestionar Usuarios</a>
                     <a href="#Validar_Compra">Validar Compra</a>
@@ -549,7 +549,7 @@
 
             </div>
             <div id="Validar_Compra" class="tab-content">
-                <h1>Validacion de las Compra</h1>
+                <h1>Validación de las Compra</h1>
                 <div class="diseno_contenedor_table">
                     <?php
                         // Configuración de la base de datos
@@ -565,7 +565,7 @@
                         if ($conn->connect_error) {
                             die("La conexión a la base de datos falló: " . $conn->connect_error);
                         }
-                        $sql = "SELECT COM_COMID, BID_nom, COM_Cantidad, BID_stock FROM com_bid, compra, bidon WHERE COM_COMID = COM_id AND COM_estado = 'Pendiente' AND COM_BIDID = BID_id ORDER BY COM_COMID ASC";
+                        $sql = "SELECT COM_COMID, BID_ID, BID_nom, COM_Cantidad, BID_stock FROM com_bid, compra, bidon WHERE COM_COMID = COM_id AND COM_estado = 'Pendiente' AND COM_BIDID = BID_id ORDER BY COM_COMID ASC";
                         $stmt = $conn->prepare($sql);
                         $stmt->execute();
                         $resultado = $stmt->get_result();
@@ -585,6 +585,8 @@
                                 if ($fila['COM_COMID'] != $prevCOM_COMID) {
                                     echo "<form action='backend.php' method='post'>";
                                     echo '<input type="hidden" name="ID_compra" value="' . $fila['COM_COMID'] . '" />'; 
+                                    echo '<input type="hidden" name="Bid_stock" value="' . $fila['BID_stock'] . '" />'; 
+                                    echo '<input type="hidden" name="BID_ID" value="' . $fila['BID_ID'] . '" />'; 
                                     echo '<input type="hidden" name="compra-validada" value="compra validada" />';
                                     echo '<input type="hidden" name="compra-rechazada" value="anulado" />';
                                     echo '<td><button name="btn_aceptar" type="submit">Aceptar</button></td>';
@@ -611,7 +613,7 @@
                 </div>
             </div>
             <div id="Cerrar_Session" class="tab-content">
-                <h1>Seguro que Desea Cerrar Sessión</h1>
+                <h1>Seguro que Desea Cerrar Sesión</h1>
                 <div class=" btns_yes_no">
                     <form action="backend.php" method="post">
                         <button type="submit" name="cerrar_session">Si</button>

@@ -41,7 +41,7 @@
     </header>
     <div class="FondoCompleto">
         <div class="ladoA_texto">
-            <h1>Consigue el mejor agua de la zona Metropolitana</h1>
+            <h1>Consigue la mejor agua de la zona Metropolitana</h1>
             <h2>Contamos con:</h2>
         </div>
         <div class="ladoB_bidones">

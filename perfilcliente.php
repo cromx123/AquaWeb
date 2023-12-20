@@ -56,7 +56,7 @@
                         die("La conexión a la base de datos falló: " . $conn->connect_error);
                     }
                     $US_id = $_SESSION['US_id'];
-                    $sql = "SELECT * FROM `compra` WHERE `US_id` = ? ORDER BY COM_fecha DESC";
+                    $sql = "SELECT * FROM `compra` WHERE `US_id` = ? ORDER BY COM_id DESC";
                     
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $US_id);

@@ -223,18 +223,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         $conn->commit();
-        header("Location: catalogo.php");
+        unset($_SESSION['carrito']);
+        if (isset($_SESSION['tipousuario']) && $_SESSION["tipousuario"] == 0){
+            header("Location: balancesadm.php#Reporte_Balances");
+        }else if($_SESSION['tipousuario'] == 1){
+            header("Location: perfilcliente.php#Historial_Compras");
+        }else if($_SESSION['tipousuario'] == 2){
+            header("Location: perfilrepartidor.php#Historial_Compras");
+        }
         exit();
     }
     //Aceptar o Rechazar ordenes de compras
     elseif (isset($_POST["btn_aceptar"])){
         $ID_compra = htmlspecialchars($_POST["ID_compra"]);
-        $estado =htmlspecialchars($_POST["compra-validada"]);
-
+        $estado = htmlspecialchars($_POST["compra-validada"]);
+        $BID_ID = htmlspecialchars($_POST["BID_ID"]);
+        $BID_stock = htmlspecialchars($_POST["Bid_stock"]);
+        $BID_stock = $BID_stock - 1;
         $ActualizarEstado = "UPDATE compra SET COM_estado = ? WHERE COM_id = ?";
 
         $stmtActualizarEstado = $conn->prepare($ActualizarEstado);
         $stmtActualizarEstado-> bind_param('si', $estado,$ID_compra);
+        $stmtActualizarEstado-> execute();
+        $stmtActualizarEstado-> close();
+
+        $ActualizarStock = "UPDATE bidon SET BID_stock = ? WHERE BID_ID = ?";
+
+        $stmtActualizarEstado = $conn->prepare($ActualizarStock);
+        $stmtActualizarEstado-> bind_param('si', $BID_stock,$BID_ID);
         $stmtActualizarEstado-> execute();
         $stmtActualizarEstado-> close();
         header("Location: balancesadm.php#Validar_Compra");

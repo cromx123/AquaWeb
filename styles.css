@@ -322,6 +322,17 @@ h1{
 .AlertaINGRESO h1{
   color: black;
 }
+.MostrarOrden{
+  background-color:#7fb4ce;
+  text-align: center;
+  padding: 10px;
+  border: 2px solid black; 
+  border-radius: 20px;
+  max-width: max-content;
+}
+.MostrarOrden h1{
+  color: black;
+}
 /*Seguimiento*/
 .seguimiento{
   width: 90%; 
